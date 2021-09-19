@@ -1,4 +1,4 @@
-package `in`.trendmate.app
+package com.trendmate.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
         ],
         child: Builder(builder: (context) {
           return MaterialApp(
-            title: 'Wrotto',
+            title: 'TrendMate',
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(primarySwatch: Colors.blue),
+            theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
             home: const HomePage(),
           );
         }));
