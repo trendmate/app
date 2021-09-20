@@ -1,3 +1,4 @@
+import 'package:app/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseMethods {
@@ -12,4 +13,8 @@ class FirebaseMethods {
   FirebaseMethods._internal();
 
   initFirebase() {}
+
+  Future getProducts() {
+    return firestore.collection('trending_products').get();
+  }
 }
