@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:app/models/product.dart';
 import 'package:app/providers/products_provider.dart';
+import 'package:app/pages/filters_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +20,17 @@ class HomePage extends StatelessWidget {
           "Top Trending",
           style: TextStyle(color: Colors.black, fontSize: 21),
         ),
+        actions: [
+          IconButton(
+            padding: EdgeInsets.all(16),
+            icon: const Icon(Icons.filter_list_outlined),
+            onPressed: () {
+              Navigator.of(context).pushNamed(FilterScreen.routeName);
+            },
+            color: Colors.black,
+            iconSize: 30,
+          )
+        ],
       ),
       body: GridView.builder(
           padding: const EdgeInsets.all(10),
