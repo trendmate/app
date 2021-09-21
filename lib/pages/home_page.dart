@@ -1,17 +1,14 @@
+import 'package:trendmate/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:app/models/product.dart';
-import 'package:app/providers/products_provider.dart';
-import 'package:app/pages/filters_screen.dart';
+import 'package:trendmate/pages/filters_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final productsData =
-        Provider.of<ProductsProvider>(context, listen: false).products;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white30,
@@ -32,52 +29,56 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: GridView.builder(
-          padding: const EdgeInsets.all(10),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              childAspectRatio: 0.5),
-          itemCount: productsData.length,
-          itemBuilder: (ctx, idx) {
-            return GestureDetector(
-              child: Card(
-                child: Container(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            //alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Image.network(
-                              productsData[idx].imageUrl,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.all(8),
-                          child: Text(productsData[idx].name),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10, bottom: 10),
-                          child: Text(
-                            "Rs.${productsData[idx].price.toString()}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue[600]),
-                          ),
-                        )
-                      ]),
-                ),
-              ),
-            );
-          }),
+      body: Consumer<ProductsProvider>(
+        builder: (BuildContext context, productsProvider, Widget? child) =>
+            GridView.builder(
+                padding: const EdgeInsets.all(10),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                    childAspectRatio: 0.5),
+                itemCount: productsProvider.products.length,
+                itemBuilder: (ctx, idx) {
+                  return GestureDetector(
+                    child: Card(
+                      child: Container(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  //alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Image.network(
+                                    productsProvider.products[idx].imageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.all(8),
+                                child:
+                                    Text(productsProvider.products[idx].name),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 10, bottom: 10),
+                                child: Text(
+                                  "Rs.${productsProvider.products[idx].price.toString()}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue[600]),
+                                ),
+                              )
+                            ]),
+                      ),
+                    ),
+                  );
+                }),
+      ),
     );
   }
 }
