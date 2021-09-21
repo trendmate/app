@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:trendmate/models/filter.dart';
+import 'package:trendmate/providers/products_provider.dart';
 
 class FilterScreen extends StatefulWidget {
   static const routeName = '/filters-screen';
@@ -13,7 +16,7 @@ class _FilterScreenState extends State<FilterScreen> {
   var selectedRange = RangeValues(500, 2000);
 
   final List<Pair> _categories = <Pair>[
-    Pair('t-shirts', false),
+    Pair('t-shirt', false),
     Pair('jeans', false),
     Pair('shoes', false),
   ];
@@ -25,8 +28,8 @@ class _FilterScreenState extends State<FilterScreen> {
   ];
 
   final List<Pair> _brands = <Pair>[
-    Pair('nike', false),
-    Pair('monte-carlo', false),
+    Pair('Nike', false),
+    Pair('Monte Carlo', false),
     Pair('gucci', false),
   ];
 
@@ -37,209 +40,243 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: Text(
-              "Filters",
-              style: TextStyle(
-                color: Colors.black,
+    return Consumer<ProductsProvider>(
+        builder: (BuildContext context, provider, Widget? child) {
+      // provider.filter.cats.map((e) => _categories
+      //         .where((element) => element.title.compareTo(e) == 0)
+      //         .forEach((element) {
+      //       element.isChecked = true;
+      //     }));
+      // provider.filter.brands.map((e) => _brands
+      //         .where((element) => element.title.compareTo(e) == 0)
+      //         .forEach((element) {
+      //       element.isChecked = true;
+      //     }));
+      // selectedRange =
+      //     RangeValues(provider.filter.priceStart, provider.filter.priceEnd);
+
+      return Scaffold(
+          appBar: AppBar(
+              title: Text(
+                "Filters",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              elevation: 0,
+              backgroundColor: Colors.white30,
+              iconTheme: IconThemeData(color: Colors.black),
+              centerTitle: true,
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      final filter = Filter(
+                          brands: _brands
+                              .where((element) => element.isChecked)
+                              .map((e) => e.title)
+                              .toList(),
+                          cats: _categories
+                              .where((element) => element.isChecked)
+                              .map((e) => e.title)
+                              .toList(),
+                          gender: ['M'],
+                          priceStart: selectedRange.start,
+                          priceEnd: selectedRange.end,
+                          sites: []);
+                      print(filter);
+                      provider.setFilter(filter);
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "Apply",
+                      style: TextStyle(color: Colors.blue[600]),
+                    ))
+              ]),
+          body: SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    child: Text(
+                      "Price Range",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(0, 1),
+                              blurRadius: 2),
+                        ]),
+                    child: RangeSlider(
+                      values: selectedRange,
+                      onChanged: ((RangeValues newRange) {
+                        setState(() {
+                          selectedRange = newRange;
+                        });
+                      }),
+                      min: 0,
+                      max: 5000,
+                      divisions: 5,
+                      labels: RangeLabels(
+                          '${selectedRange.start.round().toString()}',
+                          '${selectedRange.end.round().toString()}'),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    child: Text(
+                      "Categories",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(0, 1),
+                              blurRadius: 2),
+                        ]),
+                    child: ListView(
+                      padding: const EdgeInsets.all(8),
+                      children: _categories
+                          .map((Pair category) => CheckboxListTile(
+                              title: Text(category.title),
+                              value: category.isChecked,
+                              onChanged: (bool? val) {
+                                if (val != null) {
+                                  setState(() {
+                                    category.isChecked = val;
+                                  });
+                                }
+                              }))
+                          .toList(),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    child: Text(
+                      "Websites",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(0, 1),
+                              blurRadius: 2),
+                        ]),
+                    child: ListView(
+                      padding: const EdgeInsets.all(8),
+                      children: _websites
+                          .map((Pair website) => CheckboxListTile(
+                              title: Text(website.title),
+                              value: website.isChecked,
+                              onChanged: (bool? val) {
+                                if (val != null) {
+                                  setState(() {
+                                    website.isChecked = val;
+                                  });
+                                }
+                              }))
+                          .toList(),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    child: Text(
+                      "Brands",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(0, 1),
+                              blurRadius: 2),
+                        ]),
+                    child: ListView(
+                      padding: const EdgeInsets.all(8),
+                      children: _brands
+                          .map((Pair brand) => CheckboxListTile(
+                              title: Text(brand.title),
+                              value: brand.isChecked,
+                              onChanged: (bool? val) {
+                                if (val != null) {
+                                  setState(() {
+                                    brand.isChecked = val;
+                                  });
+                                }
+                              }))
+                          .toList(),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    child: Text(
+                      "Gender",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(0, 1),
+                              blurRadius: 2),
+                        ]),
+                    child: ListView(
+                      padding: const EdgeInsets.all(8),
+                      children: _gender
+                          .map((Pair website) => CheckboxListTile(
+                              title: Text(website.title),
+                              value: website.isChecked,
+                              onChanged: (bool? val) {
+                                if (val != null) {
+                                  setState(() {
+                                    website.isChecked = val;
+                                  });
+                                }
+                              }))
+                          .toList(),
+                    ),
+                  ),
+                ],
               ),
             ),
-            elevation: 0,
-            backgroundColor: Colors.white30,
-            iconTheme: IconThemeData(color: Colors.black),
-            centerTitle: true,
-            actions: [
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Apply",
-                    style: TextStyle(color: Colors.blue[600]),
-                  ))
-            ]),
-        body: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(12),
-                  child: Text(
-                    "Price Range",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0, 1),
-                            blurRadius: 2),
-                      ]),
-                  child: RangeSlider(
-                    values: selectedRange,
-                    onChanged: ((RangeValues newRange) {
-                      setState(() {
-                        selectedRange = newRange;
-                      });
-                    }),
-                    min: 0,
-                    max: 5000,
-                    divisions: 5,
-                    labels: RangeLabels(
-                        '${selectedRange.start.round().toString()}',
-                        '${selectedRange.end.round().toString()}'),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(12),
-                  child: Text(
-                    "Categories",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0, 1),
-                              blurRadius: 2),
-                        ]),
-                    child: Expanded(
-                      child: ListView(
-                        padding: const EdgeInsets.all(8),
-                        children: _categories
-                            .map((Pair category) => CheckboxListTile(
-                                title: Text(category.title),
-                                value: category.isChecked,
-                                onChanged: (bool? val) {
-                                  if (val != null) {
-                                    setState(() {
-                                      category.isChecked = val;
-                                    });
-                                  }
-                                }))
-                            .toList(),
-                      ),
-                    )),
-                Container(
-                  padding: EdgeInsets.all(12),
-                  child: Text(
-                    "Websites",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0, 1),
-                              blurRadius: 2),
-                        ]),
-                    child: Expanded(
-                      child: ListView(
-                        padding: const EdgeInsets.all(8),
-                        children: _websites
-                            .map((Pair website) => CheckboxListTile(
-                                title: Text(website.title),
-                                value: website.isChecked,
-                                onChanged: (bool? val) {
-                                  if (val != null) {
-                                    setState(() {
-                                      website.isChecked = val;
-                                    });
-                                  }
-                                }))
-                            .toList(),
-                      ),
-                    )),
-                Container(
-                  padding: EdgeInsets.all(12),
-                  child: Text(
-                    "Brands",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0, 1),
-                              blurRadius: 2),
-                        ]),
-                    child: Expanded(
-                      child: ListView(
-                        padding: const EdgeInsets.all(8),
-                        children: _brands
-                            .map((Pair brand) => CheckboxListTile(
-                                title: Text(brand.title),
-                                value: brand.isChecked,
-                                onChanged: (bool? val) {
-                                  if (val != null) {
-                                    setState(() {
-                                      brand.isChecked = val;
-                                    });
-                                  }
-                                }))
-                            .toList(),
-                      ),
-                    )),
-                Container(
-                  padding: EdgeInsets.all(12),
-                  child: Text(
-                    "Gender",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0, 1),
-                              blurRadius: 2),
-                        ]),
-                    child: Expanded(
-                      child: ListView(
-                        padding: const EdgeInsets.all(8),
-                        children: _gender
-                            .map((Pair website) => CheckboxListTile(
-                                title: Text(website.title),
-                                value: website.isChecked,
-                                onChanged: (bool? val) {
-                                  if (val != null) {
-                                    setState(() {
-                                      website.isChecked = val;
-                                    });
-                                  }
-                                }))
-                            .toList(),
-                      ),
-                    )),
-              ],
-            ),
-          ),
-        ));
+          ));
+    });
   }
 }
 

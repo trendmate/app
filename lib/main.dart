@@ -1,10 +1,10 @@
-import 'package:app/providers/products_provider.dart';
+import 'package:trendmate/providers/products_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:app/pages/home_page.dart';
-import 'package:app/pages/filters_screen.dart';
+import 'package:trendmate/pages/home_page.dart';
+import 'package:trendmate/pages/filters_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
