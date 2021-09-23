@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trendmate/models/filter.dart';
 
+import 'package:trendmate/models/filter.dart';
 import 'package:trendmate/models/product.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 
@@ -25,14 +25,12 @@ class ProductsProvider with ChangeNotifier {
   }
 
   Filter _filter = Filter(
-      brands: ['Nike', 'Monte Carlo'],
-      cats: ['t-shirt'],
-      gender: ['M'],
-      priceStart: 0,
-      priceEnd: 5000,
-      sites: []);
-
-  Filter get filter => _filter;
+      brands: {"Monte Carlo": true, "Nike": true, "Gucci": false},
+      gender: {"Men": true, "Women": true},
+      cats: {"t-shirt": true, "shoes": true, "jeans": false},
+      sites: {"myntra": true, "amazon": true, "flipkart": false},
+      priceEnd: 3000,
+      priceStart: 0);
 
   void setFilter(Filter newFilter) {
     _filter = newFilter;
@@ -42,10 +40,8 @@ class ProductsProvider with ChangeNotifier {
   List<Product> get products {
     List<Product> curr = _products
         .where((element) =>
-            _filter.brands.contains(element.brand) &&
-            _filter.cats.contains(element.category) &&
-            (_filter.priceStart <= element.price &&
-                element.price <= _filter.priceEnd))
+            _filter.brands[element.brand] == true &&
+            _filter.cats[element.category] == true)
         .toList();
     curr.sort((a, b) => a.trendiness.compareTo(b.trendiness));
 

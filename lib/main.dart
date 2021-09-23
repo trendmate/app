@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:trendmate/pages/home_page.dart';
+import 'pages/blogs_page.dart';
+import 'pages/favourites_page.dart';
 import 'package:trendmate/pages/filters_screen.dart';
+import 'providers/filters_provider.dart';
+import 'pages/tabs_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,15 +26,21 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (ctx) => ProductsProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (ctx) => FiltersProvider(),
+          ),
         ],
         child: Builder(builder: (context) {
           return MaterialApp(
             title: 'TrendMate',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
-            home: const HomePage(),
+            home: const TabsScreen(),
             routes: {
               FilterScreen.routeName: (ctx) => FilterScreen(),
+              HomePage.routeName: (ctx) => HomePage(),
+              BlogsPage.routeName: (ctx) => BlogsPage(),
+              FavouritesPage.routeName: (ctx) => FavouritesPage(),
             },
           );
         }));
