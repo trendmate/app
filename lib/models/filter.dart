@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 class Filter {
   double priceStart;
   double priceEnd;
-  List<String> cats;
-  List<String> sites;
-  List<String> brands;
-  List<String> gender;
+  Map<String, bool> cats;
+  Map<String, bool> sites;
+  Map<String, bool> brands;
+  Map<String, bool> gender;
 
   Filter({
     required this.priceStart,
@@ -34,10 +34,10 @@ class Filter {
     return Filter(
       priceStart: map['priceStart'],
       priceEnd: map['priceEnd'],
-      cats: List<String>.from(map['cats']),
-      sites: List<String>.from(map['sites']),
-      brands: List<String>.from(map['brands']),
-      gender: List<String>.from(map['gender']),
+      cats: Map<String, bool>.from(map['cats']),
+      sites: Map<String, bool>.from(map['sites']),
+      brands: Map<String, bool>.from(map['brands']),
+      gender: Map<String, bool>.from(map['gender']),
     );
   }
 
@@ -48,19 +48,6 @@ class Filter {
   @override
   String toString() {
     return 'Filter(priceStart: $priceStart, priceEnd: $priceEnd, cats: $cats, sites: $sites, brands: $brands, gender: $gender)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Filter &&
-        other.priceStart == priceStart &&
-        other.priceEnd == priceEnd &&
-        listEquals(other.cats, cats) &&
-        listEquals(other.sites, sites) &&
-        listEquals(other.brands, brands) &&
-        listEquals(other.gender, gender);
   }
 
   @override
