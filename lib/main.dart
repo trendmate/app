@@ -1,14 +1,16 @@
-import 'package:trendmate/providers/products_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:trendmate/providers/filters_provider.dart';
+import 'package:trendmate/providers/products_provider.dart';
 
 import 'package:trendmate/pages/home_page.dart';
-import 'pages/blogs_page.dart';
-import 'pages/favourites_page.dart';
+import 'package:trendmate/pages/posts_page.dart';
+import 'package:trendmate/pages/favourites_page.dart';
 import 'package:trendmate/pages/filters_screen.dart';
-import 'providers/filters_provider.dart';
-import 'pages/tabs_screen.dart';
+import 'package:trendmate/pages/tabs_screen.dart';
+import 'package:trendmate/pages/social_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,8 +41,9 @@ class MyApp extends StatelessWidget {
             routes: {
               FilterScreen.routeName: (ctx) => FilterScreen(),
               HomePage.routeName: (ctx) => HomePage(),
-              BlogsPage.routeName: (ctx) => BlogsPage(),
+              PostsPage.routeName: (ctx) => PostsPage(),
               FavouritesPage.routeName: (ctx) => FavouritesPage(),
+              SocialPage.routeName: (ctx) => SocialPage(),
             },
           );
         }));

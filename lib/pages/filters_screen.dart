@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trendmate/models/filter.dart';
+import 'package:trendmate/models/ecom/filter.dart';
 
 import 'package:trendmate/providers/filters_provider.dart';
 import 'package:trendmate/providers/products_provider.dart';
