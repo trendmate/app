@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:trendmate/models/filter.dart';
+import 'package:trendmate/models/ecom/filter.dart';
 
 class FiltersProvider with ChangeNotifier {
   Filter _filters = Filter(
@@ -13,8 +13,5 @@ class FiltersProvider with ChangeNotifier {
       priceEnd: 3000,
       priceStart: 0);
 
-  Filter get filters {
-    Filter curr = _filters;
-    return curr;
-  }
+  Filter get filters => _filters;
 }

@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
                   itemBuilder: (ctx, idx) {
                     return GestureDetector(
                       onTap: () async {
-                        final _url = productsProvider.products[idx].productUrl;
+                        final _url = productsProvider.products[idx].url;
                         print(_url);
                         await canLaunch(_url)
                             ? await launch(_url)
@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Image.network(
-                                      productsProvider.products[idx].imageUrl,
+                                      productsProvider.products[idx].image,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -70,8 +70,8 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.center,
                                   padding: EdgeInsets.all(8),
-                                  child:
-                                      Text(productsProvider.products[idx].name),
+                                  child: Text(
+                                      productsProvider.products[idx].title),
                                 ),
                                 Container(
                                   padding:

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:trendmate/pages/social_page.dart';
 
-import 'blogs_page.dart';
+import 'posts_page.dart';
 import 'favourites_page.dart';
 import 'home_page.dart';
-import 'filters_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   static const routeName = '/tabs-screen';
@@ -20,11 +20,11 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   void initState() {
     _pages = [
-      {'page': HomePage(), 'title': 'Feed'},
-      {'page': FavouritesPage(), 'title': 'Review'},
-      {'page': BlogsPage(), 'title': 'Statistics'},
+      {'page': HomePage(), 'title': 'Home'},
+      {'page': FavouritesPage(), 'title': 'Favourites'},
+      {'page': PostsPage(), 'title': 'Posts'},
+      {'page': SocialPage(), 'title': 'Social'},
     ];
-    // TODO: implement initState
     super.initState();
   }
 
@@ -44,11 +44,22 @@ class _TabsScreenState extends State<TabsScreen> {
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_outline), label: 'Favourites'),
+            icon: Icon(Icons.home_filled),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.mobile_friendly), label: 'Blog'),
+            icon: Icon(Icons.favorite_outline),
+            label: 'Favourites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mobile_friendly),
+            label: 'Posts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Social',
+          )
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:trendmate/models/filter.dart';
-import 'package:trendmate/models/product.dart';
+import 'package:trendmate/models/ecom/filter.dart';
+import 'package:trendmate/models/ecom/product.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 
 class ProductsProvider with ChangeNotifier {
