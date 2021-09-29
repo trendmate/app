@@ -7,16 +7,16 @@ class Product {
   final String description;
   final String image;
   final String title;
-  final double price; // price*100
-  final double rating; // out of 500 (5.00)
-  final String reviews_no;
+  final int price; // price*100
+  final int rating; // out of 500 (5.00)
+  final int reviews_no;
   final int share_no;
-  final double trendiness;
+  final int trendiness;
   final String url;
   final String demographic;
   final String store;
   final String occasion;
-  
+
   Product({
     required this.productId,
     required this.brand,
@@ -42,11 +42,11 @@ class Product {
     String? description,
     String? image,
     String? title,
-    double? price,
-    double? rating,
-    String? reviews_no,
+    int? price,
+    int? rating,
+    int? reviews_no,
     int? share_no,
-    double? trendiness,
+    int? trendiness,
     String? url,
     String? demographic,
     String? store,
@@ -113,7 +113,8 @@ class Product {
 
   String toJson() => json.encode(toMap());
 
-  factory Product.fromJson(String source) => Product.fromMap(json.decode(source));
+  factory Product.fromJson(String source) =>
+      Product.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -123,41 +124,41 @@ class Product {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Product &&
-      other.productId == productId &&
-      other.brand == brand &&
-      other.category == category &&
-      other.description == description &&
-      other.image == image &&
-      other.title == title &&
-      other.price == price &&
-      other.rating == rating &&
-      other.reviews_no == reviews_no &&
-      other.share_no == share_no &&
-      other.trendiness == trendiness &&
-      other.url == url &&
-      other.demographic == demographic &&
-      other.store == store &&
-      other.occasion == occasion;
+        other.productId == productId &&
+        other.brand == brand &&
+        other.category == category &&
+        other.description == description &&
+        other.image == image &&
+        other.title == title &&
+        other.price == price &&
+        other.rating == rating &&
+        other.reviews_no == reviews_no &&
+        other.share_no == share_no &&
+        other.trendiness == trendiness &&
+        other.url == url &&
+        other.demographic == demographic &&
+        other.store == store &&
+        other.occasion == occasion;
   }
 
   @override
   int get hashCode {
     return productId.hashCode ^
-      brand.hashCode ^
-      category.hashCode ^
-      description.hashCode ^
-      image.hashCode ^
-      title.hashCode ^
-      price.hashCode ^
-      rating.hashCode ^
-      reviews_no.hashCode ^
-      share_no.hashCode ^
-      trendiness.hashCode ^
-      url.hashCode ^
-      demographic.hashCode ^
-      store.hashCode ^
-      occasion.hashCode;
+        brand.hashCode ^
+        category.hashCode ^
+        description.hashCode ^
+        image.hashCode ^
+        title.hashCode ^
+        price.hashCode ^
+        rating.hashCode ^
+        reviews_no.hashCode ^
+        share_no.hashCode ^
+        trendiness.hashCode ^
+        url.hashCode ^
+        demographic.hashCode ^
+        store.hashCode ^
+        occasion.hashCode;
   }
 }
