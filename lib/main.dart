@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:trendmate/providers/filters_provider.dart';
 import 'package:trendmate/providers/products_provider.dart';
 
-import 'package:trendmate/pages/home_page.dart';
+import 'package:trendmate/pages/products_page.dart';
 import 'package:trendmate/pages/posts_page.dart';
 import 'package:trendmate/pages/favourites_page.dart';
 import 'package:trendmate/pages/filters_screen.dart';
-import 'package:trendmate/pages/tabs_screen.dart';
+import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/pages/social_page.dart';
 
 void main() async {
@@ -37,10 +37,10 @@ class MyApp extends StatelessWidget {
             title: 'TrendMate',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
-            home: const TabsScreen(),
+            home: const TabsPage(),
             routes: {
               FilterScreen.routeName: (ctx) => FilterScreen(),
-              HomePage.routeName: (ctx) => HomePage(),
+              ProductsPage.routeName: (ctx) => ProductsPage(),
               PostsPage.routeName: (ctx) => PostsPage(),
               FavouritesPage.routeName: (ctx) => FavouritesPage(),
               SocialPage.routeName: (ctx) => SocialPage(),

@@ -3,24 +3,24 @@ import 'package:trendmate/pages/social_page.dart';
 
 import 'posts_page.dart';
 import 'favourites_page.dart';
-import 'home_page.dart';
+import 'products_page.dart';
 
-class TabsScreen extends StatefulWidget {
+class TabsPage extends StatefulWidget {
   static const routeName = '/tabs-screen';
-  const TabsScreen({Key? key}) : super(key: key);
+  const TabsPage({Key? key}) : super(key: key);
 
   @override
-  _TabsScreenState createState() => _TabsScreenState();
+  _TabsPageState createState() => _TabsPageState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _TabsPageState extends State<TabsPage> {
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
 
   @override
   void initState() {
     _pages = [
-      {'page': HomePage(), 'title': 'Home'},
+      {'page': ProductsPage(), 'title': 'Home'},
       {'page': FavouritesPage(), 'title': 'Favourites'},
       {'page': PostsPage(), 'title': 'Posts'},
       {'page': SocialPage(), 'title': 'Social'},
