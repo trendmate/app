@@ -12,7 +12,7 @@ class User {
   final String bio;
   final Timestamp joined;
   final GeoPoint location;
-  final List<String> favourite_products;
+  final List<String> my_boards;
   final List<String> followed_boards;
   final List<String> friends;
 
@@ -25,7 +25,7 @@ class User {
     required this.bio,
     required this.joined,
     required this.location,
-    required this.favourite_products,
+    required this.my_boards,
     required this.followed_boards,
     required this.friends,
   });
@@ -39,7 +39,7 @@ class User {
     String? bio,
     Timestamp? joined,
     GeoPoint? location,
-    List<String>? favourite_products,
+    List<String>? my_boards,
     List<String>? followed_boards,
     List<String>? friends,
   }) {
@@ -52,7 +52,7 @@ class User {
       bio: bio ?? this.bio,
       joined: joined ?? this.joined,
       location: location ?? this.location,
-      favourite_products: favourite_products ?? this.favourite_products,
+      my_boards: my_boards ?? this.my_boards,
       followed_boards: followed_boards ?? this.followed_boards,
       friends: friends ?? this.friends,
     );
@@ -68,7 +68,7 @@ class User {
       'bio': bio,
       'joined': joined,
       'location': location,
-      'favourite_products': favourite_products,
+      'my_boards': my_boards,
       'followed_boards': followed_boards,
       'friends': friends,
     };
@@ -84,7 +84,7 @@ class User {
       bio: map['bio'],
       joined: map['joined'],
       location: map['location'],
-      favourite_products: List<String>.from(map['favourite_products']),
+      my_boards: List<String>.from(map['my_boards']),
       followed_boards: List<String>.from(map['followed_boards']),
       friends: List<String>.from(map['friends']),
     );
@@ -96,7 +96,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(uid: $uid, name: $name, phone: $phone, image: $image, cover: $cover, bio: $bio, joined: $joined, location: $location, favourite_products: $favourite_products, followed_boards: $followed_boards, friends: $friends)';
+    return 'User(uid: $uid, name: $name, phone: $phone, image: $image, cover: $cover, bio: $bio, joined: $joined, location: $location, favourite_products: $my_boards, followed_boards: $followed_boards, friends: $friends)';
   }
 
   @override
@@ -112,7 +112,7 @@ class User {
         other.bio == bio &&
         other.joined == joined &&
         other.location == location &&
-        listEquals(other.favourite_products, favourite_products) &&
+        listEquals(other.my_boards, my_boards) &&
         listEquals(other.followed_boards, followed_boards) &&
         listEquals(other.friends, friends);
   }
@@ -127,7 +127,7 @@ class User {
         bio.hashCode ^
         joined.hashCode ^
         location.hashCode ^
-        favourite_products.hashCode ^
+        my_boards.hashCode ^
         followed_boards.hashCode ^
         friends.hashCode;
   }
