@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:trendmate/providers/filters_provider.dart';
 import 'package:trendmate/providers/products_provider.dart';
 
-import 'package:trendmate/pages/products_page.dart';
-import 'package:trendmate/pages/posts_page.dart';
-import 'package:trendmate/pages/favourites_page.dart';
-import 'package:trendmate/pages/filters_screen.dart';
+import 'package:trendmate/pages/products/products_page.dart';
+import 'package:trendmate/pages/posts/posts_page.dart';
+import 'package:trendmate/pages/favourites/board_page.dart';
+import 'package:trendmate/pages/products/filters_screen.dart';
 import 'package:trendmate/pages/tabs_page.dart';
-import 'package:trendmate/pages/social_page.dart';
+import 'package:trendmate/pages/social/social_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

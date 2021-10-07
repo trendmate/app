@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trendmate/pages/social_page.dart';
+import 'package:trendmate/pages/social/social_page.dart';
 
-import 'posts_page.dart';
-import 'favourites_page.dart';
-import 'products_page.dart';
+import 'posts/posts_page.dart';
+import 'favourites/board_page.dart';
+import 'products/products_page.dart';
 
 class TabsPage extends StatefulWidget {
   static const routeName = '/tabs-screen';
