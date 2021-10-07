@@ -16,6 +16,10 @@ class Product {
   final String demographic;
   final String store;
   final String occasion;
+  final String? fromUid;
+  final String? fromUserName;
+  final String? fromBoardId;
+  final String? fromBoardName;
 
   Product({
     required this.productId,
@@ -33,6 +37,10 @@ class Product {
     required this.demographic,
     required this.store,
     required this.occasion,
+    required this.fromUid,
+    required this.fromUserName,
+    required this.fromBoardId,
+    required this.fromBoardName,
   });
 
   Product copyWith({
@@ -51,6 +59,10 @@ class Product {
     String? demographic,
     String? store,
     String? occasion,
+    String? fromUid,
+    String? fromUserName,
+    String? fromBoardId,
+    String? fromBoardName,
   }) {
     return Product(
       productId: productId ?? this.productId,
@@ -68,6 +80,10 @@ class Product {
       demographic: demographic ?? this.demographic,
       store: store ?? this.store,
       occasion: occasion ?? this.occasion,
+      fromUid: fromUid ?? this.fromUid,
+      fromUserName: fromUserName ?? this.fromUserName,
+      fromBoardId: fromBoardId ?? this.fromBoardId,
+      fromBoardName: fromBoardName ?? this.fromBoardName,
     );
   }
 
@@ -88,6 +104,10 @@ class Product {
       'demographic': demographic,
       'store': store,
       'occasion': occasion,
+      'fromUid': fromUid,
+      'fromUserName': fromUserName,
+      'fromBoardId': fromBoardId,
+      'fromBoardName': fromBoardName,
     };
   }
 
@@ -108,57 +128,68 @@ class Product {
       demographic: map['demographic'],
       store: map['store'],
       occasion: map['occasion'],
+      fromUid: map['fromUid'],
+      fromUserName: map['fromUserName'],
+      fromBoardId: map['fromBoardId'],
+      fromBoardName: map['fromBoardName'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Product.fromJson(String source) =>
-      Product.fromMap(json.decode(source));
+  factory Product.fromJson(String source) => Product.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Product(productId: $productId, brand: $brand, category: $category, description: $description, image: $image, title: $title, price: $price, rating: $rating, reviews_no: $reviews_no, share_no: $share_no, trendiness: $trendiness, url: $url, demographic: $demographic, store: $store, occasion: $occasion)';
+    return 'Product(productId: $productId, brand: $brand, category: $category, description: $description, image: $image, title: $title, price: $price, rating: $rating, reviews_no: $reviews_no, share_no: $share_no, trendiness: $trendiness, url: $url, demographic: $demographic, store: $store, occasion: $occasion, fromUid: $fromUid, fromUserName: $fromUserName, fromBoardId: $fromBoardId, fromBoardName: $fromBoardName)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is Product &&
-        other.productId == productId &&
-        other.brand == brand &&
-        other.category == category &&
-        other.description == description &&
-        other.image == image &&
-        other.title == title &&
-        other.price == price &&
-        other.rating == rating &&
-        other.reviews_no == reviews_no &&
-        other.share_no == share_no &&
-        other.trendiness == trendiness &&
-        other.url == url &&
-        other.demographic == demographic &&
-        other.store == store &&
-        other.occasion == occasion;
+      other.productId == productId &&
+      other.brand == brand &&
+      other.category == category &&
+      other.description == description &&
+      other.image == image &&
+      other.title == title &&
+      other.price == price &&
+      other.rating == rating &&
+      other.reviews_no == reviews_no &&
+      other.share_no == share_no &&
+      other.trendiness == trendiness &&
+      other.url == url &&
+      other.demographic == demographic &&
+      other.store == store &&
+      other.occasion == occasion &&
+      other.fromUid == fromUid &&
+      other.fromUserName == fromUserName &&
+      other.fromBoardId == fromBoardId &&
+      other.fromBoardName == fromBoardName;
   }
 
   @override
   int get hashCode {
     return productId.hashCode ^
-        brand.hashCode ^
-        category.hashCode ^
-        description.hashCode ^
-        image.hashCode ^
-        title.hashCode ^
-        price.hashCode ^
-        rating.hashCode ^
-        reviews_no.hashCode ^
-        share_no.hashCode ^
-        trendiness.hashCode ^
-        url.hashCode ^
-        demographic.hashCode ^
-        store.hashCode ^
-        occasion.hashCode;
+      brand.hashCode ^
+      category.hashCode ^
+      description.hashCode ^
+      image.hashCode ^
+      title.hashCode ^
+      price.hashCode ^
+      rating.hashCode ^
+      reviews_no.hashCode ^
+      share_no.hashCode ^
+      trendiness.hashCode ^
+      url.hashCode ^
+      demographic.hashCode ^
+      store.hashCode ^
+      occasion.hashCode ^
+      fromUid.hashCode ^
+      fromUserName.hashCode ^
+      fromBoardId.hashCode ^
+      fromBoardName.hashCode;
   }
 }

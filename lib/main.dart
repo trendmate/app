@@ -11,6 +11,8 @@ import 'package:trendmate/pages/favourites/board_page.dart';
 import 'package:trendmate/pages/products/filters_screen.dart';
 import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/pages/social/social_page.dart';
+import 'package:trendmate/providers/social_provider.dart';
+import 'package:trendmate/providers/user_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,10 +28,17 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
+            create: (ctx) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
             create: (ctx) => ProductsProvider(),
           ),
           ChangeNotifierProvider(
             create: (ctx) => FiltersProvider(),
+          ),
+          ChangeNotifierProxyProvider<UserProvider, SocialProvider>(
+            create: (ctx) => SocialProvider(),
+            update: (context, value, previous) => SocialProvider(),
           ),
         ],
         child: Builder(builder: (context) {
