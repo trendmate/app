@@ -15,6 +15,7 @@ class ProductsProvider with ChangeNotifier {
   bool initilised = false;
 
   List<Product> _products = [];
+  Map<String, Product> _favorites = {};
 
   Future _init() async {
     if (!initilised) {
@@ -46,5 +47,22 @@ class ProductsProvider with ChangeNotifier {
     curr.sort((a, b) => a.trendiness.compareTo(b.trendiness));
 
     return curr;
+  }
+  
+  List<Product> get favorites {
+    return [..._favorites.values];
+  }
+
+  Map<String, Product> get favoritesMap {
+    return _favorites;
+  }
+
+  void addRemoveFavorites(int idx) {
+    if (_favorites.containsKey(_products[idx].productId)) {
+      _favorites.remove(_products[idx].productId);
+    } else {
+      _favorites.putIfAbsent(_products[idx].productId, () => _products[idx]);
+    }
+    notifyListeners();
   }
 }

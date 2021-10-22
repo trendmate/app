@@ -37,6 +37,14 @@ class _TabsPageState extends State<TabsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white30,
+        elevation: 0,
+        title: Text(
+          _pages[_selectedPageIndex]['title'].toString(),
+          style: TextStyle(color: Colors.black, fontSize: 21),
+        ),
+      ),
       body: _pages[_selectedPageIndex]['page'] as Widget,
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.grey[700],
