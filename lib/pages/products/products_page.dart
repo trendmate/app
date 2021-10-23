@@ -72,14 +72,32 @@ class ProductsPage extends StatelessWidget {
                               padding: EdgeInsets.all(8),
                               child: Text(productsProvider.products[idx].title),
                             ),
-                            Container(
-                              padding: EdgeInsets.only(left: 10, bottom: 10),
-                              child: Text(
-                                "Rs.${productsProvider.products[idx].price.toString()}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue[600]),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  padding:
+                                      EdgeInsets.only(left: 10, bottom: 10),
+                                  child: Text(
+                                    "Rs.${productsProvider.products[idx].price.toString()}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue[600]),
+                                  ),
+                                ),
+                                Container(
+                                  child: IconButton(
+                                    color: Colors.red,
+                                    icon: Icon(productsProvider.favoritesMap
+                                            .containsKey(productsProvider
+                                                .products[idx].productId)
+                                        ? Icons.favorite
+                                        : Icons.favorite_border),
+                                    onPressed: () => productsProvider
+                                        .addRemoveFavorites(idx),
+                                  ),
+                                ),
+                              ],
                             )
                           ]),
                     ),
