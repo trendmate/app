@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:trendmate/constants/strings.dart';
 import 'package:trendmate/models/ecom/product.dart';
+import 'package:trendmate/models/social/board.dart';
 import 'package:trendmate/models/user.dart';
 
 class FirebaseMethods {
@@ -16,11 +17,11 @@ class FirebaseMethods {
 
   FirebaseMethods._internal();
 
-  void phoneAuth(
+  Future<void> phoneAuth(
       String phone,
       Function(auth.PhoneAuthCredential credential) verCompleted,
       Function(auth.FirebaseAuthException e) verFailed) async {
-    await auth.FirebaseAuth.instance.verifyPhoneNumber(
+    return await auth.FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+91' + phone,
       verificationCompleted: verCompleted,
       verificationFailed: verFailed,
@@ -35,10 +36,35 @@ class FirebaseMethods {
   }
 
   Future<List<Product>> getLatestFavourites(String uid) async {
+    List<Product> result = [];
+
     final user = User.fromMap(
         (await _firestore.collection('users').doc(uid).get()).data()!);
 
-    return [];
+    for (String board in user.my_boards) {
+      result.addAll(await getPrductsOfBoard(board));
+    }
+
+    return result;
+  }
+
+  Future<List<Product>> getPrductsOfBoard(String boardId) async {
+    List<Product> res = [];
+
+    final board = Board.fromMap(
+        (await _firestore.collection(StringConstants.BOARDS).doc(boardId).get())
+            .data()!);
+
+    for (String productId in board.products) {
+      final prod = Product.fromMap((await _firestore
+              .collection(StringConstants.PRODUCTS)
+              .doc(productId)
+              .get())
+          .data()!);
+      res.add(prod);
+    }
+
+    return res;
   }
 
   Future<List<Product>> getProducts() async {
@@ -51,32 +77,37 @@ class FirebaseMethods {
         .toList();
   }
 
+  Future<void> incrementShare(Product product) {
+    return _firestore
+        .collection(StringConstants.PRODUCTS)
+        .doc(product.productId)
+        .update({'share_no': product.share_no});
+  }
+
+  Future<List<User>> socialSearchPeople(String query) async {
+    return (await _firestore
+            .collection(StringConstants.USERS)
+            .orderBy('name')
+            .startAt([query]).endAt([query + "\uf8ff"]).get())
+        .docs
+        .map((e) => User.fromMap(e.data()))
+        .toList();
+  }
+
+  Future<List<Board>> socialSearchBoards(String query) async {
+    return (await _firestore
+            .collection(StringConstants.BOARDS)
+            .orderBy('title')
+            .startAt([query]).endAt([query + "\uf8ff"]).get())
+        .docs
+        .map((e) => Board.fromMap(e.data()))
+        .toList();
+  }
+
   void demoData() {
     final doc = _firestore.collection(StringConstants.PRODUCTS).doc();
-    Product _product = Product(
-      productId: doc.id,
-      brand: "Monte Carlo",
-      category: "t-shirt",
-      description: "half-sleeve round neck black",
-      image:
-          "https://rukminim1.flixcart.com/image/880/1056/ju1jqfk0/t-shirt/u/z/4/l-men-ss19-rgln-hs-white-ylw-blk-strp-maniac-original-imaff9e8dpqzhwgu.jpeg?q=50",
-      title: "MC t-shirt",
-      price: 600,
-      url:
-          "https://www.flipkart.com/maniac-color-block-men-round-neck-white-black-yellow-t-shirt/p/itm82f2a149af9a8?pid=TSHFF9CCT5YB77ZW&lid=LSTTSHFF9CCT5YB77ZWRNMYT4&marketplace=FLIPKART&store=clo&srno=b_1_7&otracker=hp_omu_Deals%2Bof%2Bthe%2BDay_5_3.dealCard.OMU_4TGEXP57SSY8_3&otracker1=hp_omu_SECTIONED_manualRanking_neo%2Fmerchandising_Deals%2Bof%2Bthe%2BDay_NA_dealCard_cc_5_NA_view-all_3&fm=neo%2Fmerchandising&iid=588c7929-575d-4981-9620-7af91cf4e3ad.TSHFF9CCT5YB77ZW.SEARCH&ppt=browse&ppn=browse&ssid=7kii9m4mds0000001632050949891",
-      rating: 35,
-      reviews_no: 205,
-      trendiness: 44,
-      demographic: 'demoId',
-      occasion: 'brunch',
-      share_no: 1,
-      store: 'storeId',
-      fromBoardId: null,
-      fromBoardName: null,
-      fromUid: null,
-      fromUserName: null,
-    );
-
+    Product _product = Product.demo0();
+    _product.productId = doc.id;
     doc.set(_product.toMap());
   }
 }

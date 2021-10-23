@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trendmate/pages/social/social_page.dart';
+import 'package:trendmate/pages/social/social_search.dart';
 
 import 'posts/posts_page.dart';
 import 'favourites/board_page.dart';
@@ -40,9 +41,32 @@ class _TabsPageState extends State<TabsPage> {
       appBar: AppBar(
         backgroundColor: Colors.white30,
         elevation: 0,
-        title: Text(
-          _pages[_selectedPageIndex]['title'].toString(),
-          style: TextStyle(color: Colors.black, fontSize: 21),
+        title: Row(
+          children: [
+            Text(
+              _pages[_selectedPageIndex]['title'].toString(),
+              style: TextStyle(color: Colors.black, fontSize: 21),
+            ),
+            if (_selectedPageIndex == 3)
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (ctx) => SocialSearch()));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(32, 8, 8, 8),
+                    child: Row(
+                      children: [
+                        Text("Search", style: TextStyle(color: Colors.grey)),
+                        Spacer(),
+                        Icon(Icons.search)
+                      ],
+                    ),
+                  ),
+                ),
+              )
+          ],
         ),
       ),
       body: _pages[_selectedPageIndex]['page'] as Widget,

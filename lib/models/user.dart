@@ -11,7 +11,7 @@ class User {
   final String cover;
   final String bio;
   final Timestamp joined;
-  final GeoPoint location;
+  final GeoPoint? location;
   final List<String> my_boards;
   final List<String> followed_boards;
   final List<String> friends;
@@ -130,5 +130,20 @@ class User {
         my_boards.hashCode ^
         followed_boards.hashCode ^
         friends.hashCode;
+  }
+
+  factory User.demo() {
+    return User(
+        bio: '',
+        cover: '',
+        followed_boards: [],
+        friends: [],
+        image: '',
+        joined: Timestamp.now(),
+        location: null,
+        my_boards: [],
+        name: '',
+        phone: '',
+        uid: '');
   }
 }

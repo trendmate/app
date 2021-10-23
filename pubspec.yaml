@@ -14,6 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # UI
+  cached_network_image: ^3.1.0
 
   # DB
 
@@ -28,6 +29,7 @@ dependencies:
   url_launcher: ^6.0.11
 
   # utils
+  share_plus: ^3.0.4
 
 dev_dependencies:
   flutter_test:
