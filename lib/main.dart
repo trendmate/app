@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:trendmate/pages/posts/post_detail.dart';
+import 'package:trendmate/constants/config.dart';
 import 'package:trendmate/providers/filters_provider.dart';
 import 'package:trendmate/providers/posts_provider.dart';
 import 'package:trendmate/providers/products_provider.dart';
@@ -17,6 +18,7 @@ import 'package:trendmate/providers/social_provider.dart';
 import 'package:trendmate/providers/user_provider.dart';
 
 void main() async {
+  Config.UItest = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
