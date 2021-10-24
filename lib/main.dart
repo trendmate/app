@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:trendmate/pages/posts/post_detail.dart';
 import 'package:trendmate/constants/config.dart';
 import 'package:trendmate/providers/filters_provider.dart';
+import 'package:trendmate/providers/posts_provider.dart';
 import 'package:trendmate/providers/products_provider.dart';
 
 import 'package:trendmate/pages/products/products_page.dart';
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (ctx) => FiltersProvider(),
           ),
+          ChangeNotifierProvider(create: (ctx) => PostsProvider()),
           ChangeNotifierProxyProvider<UserProvider, SocialProvider>(
             create: (ctx) => SocialProvider(),
             update: (context, value, previous) => SocialProvider(),
@@ -55,6 +58,7 @@ class MyApp extends StatelessWidget {
               PostsPage.routeName: (ctx) => PostsPage(),
               FavouritesPage.routeName: (ctx) => FavouritesPage(),
               SocialPage.routeName: (ctx) => SocialPage(),
+              PostDetail.routeName: (ctx) => PostDetail(),
             },
           );
         }));
