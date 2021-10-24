@@ -1,42 +1,47 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:trendmate/models/ecom/product.dart';
 
 class Board {
   final String boardId;
   final String title;
   final String image;
+  final Map<String, Product> favorites;
+  final int followers;
   final String description;
   final List<String> posts;
-  final List<String> products;
   final List<String> tags;
 
   Board({
     required this.boardId,
     required this.title,
     required this.image,
-    required this.description,
-    required this.posts,
-    required this.products,
-    required this.tags,
+    required this.favorites,
+    this.followers = 0,
+    this.description = "",
+    this.posts = const [],
+    this.tags = const [],
   });
 
   Board copyWith({
     String? boardId,
     String? title,
     String? image,
+    Map<String, Product>? favorites,
+    int? followers,
     String? description,
     List<String>? posts,
-    List<String>? products,
     List<String>? tags,
   }) {
     return Board(
       boardId: boardId ?? this.boardId,
       title: title ?? this.title,
       image: image ?? this.image,
+      favorites: favorites ?? this.favorites,
+      followers: followers ?? this.followers,
       description: description ?? this.description,
       posts: posts ?? this.posts,
-      products: products ?? this.products,
       tags: tags ?? this.tags,
     );
   }
@@ -48,7 +53,7 @@ class Board {
       'image': image,
       'description': description,
       'posts': posts,
-      'products': products,
+      'favorites': favorites,
       'tags': tags,
     };
   }
@@ -60,7 +65,7 @@ class Board {
       image: map['image'],
       description: map['description'],
       posts: List<String>.from(map['posts']),
-      products: List<String>.from(map['products']),
+      favorites: Map<String, Product>.from(map['favorites']),
       tags: List<String>.from(map['tags']),
     );
   }
@@ -71,7 +76,7 @@ class Board {
 
   @override
   String toString() {
-    return 'Board(boardId: $boardId, title: $title, image: $image, description: $description, posts: $posts, products: $products, tags: $tags)';
+    return 'Board(boardId: $boardId, title: $title, image: $image, description: $description, posts: $posts, favorites: $favorites, tags: $tags)';
   }
 
   @override
@@ -84,7 +89,7 @@ class Board {
         other.image == image &&
         other.description == description &&
         listEquals(other.posts, posts) &&
-        listEquals(other.products, products) &&
+        // listEquals(other.favorites, favorites) &&
         listEquals(other.tags, tags);
   }
 
@@ -95,7 +100,7 @@ class Board {
         image.hashCode ^
         description.hashCode ^
         posts.hashCode ^
-        products.hashCode ^
+        favorites.hashCode ^
         tags.hashCode;
   }
 }
