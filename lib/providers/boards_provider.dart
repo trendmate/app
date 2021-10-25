@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:trendmate/models/ecom/product.dart';
+import 'package:trendmate/models/social/board.dart';
 
 class BoardsProvider with ChangeNotifier {
-  Map<String, Product> board = {};
-  Map<String, Map<String, Product>> _boards = {};
+  Map<String, Board> _boards = {};
 }

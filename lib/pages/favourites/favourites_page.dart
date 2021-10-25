@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:trendmate/providers/products_provider.dart';
 
 class FavouritesPage extends StatefulWidget {
-  static const routeName = 'favourites-page';
+  static const routeName = '/favourites-page';
   const FavouritesPage({Key? key}) : super(key: key);
 
   @override
