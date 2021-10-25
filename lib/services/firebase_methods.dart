@@ -55,14 +55,14 @@ class FirebaseMethods {
         (await _firestore.collection(StringConstants.BOARDS).doc(boardId).get())
             .data()!);
 
-    for (String productId in board.products) {
-      final prod = Product.fromMap((await _firestore
-              .collection(StringConstants.PRODUCTS)
-              .doc(productId)
-              .get())
-          .data()!);
-      res.add(prod);
-    }
+    // for (String productId in board.products) {
+    //   final prod = Product.fromMap((await _firestore
+    //           .collection(StringConstants.PRODUCTS)
+    //           .doc(productId)
+    //           .get())
+    //       .data()!);
+    //   res.add(prod);
+    // }
 
     return res;
   }

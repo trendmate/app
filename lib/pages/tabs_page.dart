@@ -3,7 +3,7 @@ import 'package:trendmate/pages/social/social_page.dart';
 import 'package:trendmate/pages/social/social_search.dart';
 
 import 'posts/posts_page.dart';
-import 'favourites/board_page.dart';
+import 'favourites/favourites_page.dart';
 import 'products/products_page.dart';
 
 class TabsPage extends StatefulWidget {
