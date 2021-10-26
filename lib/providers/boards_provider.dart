@@ -61,5 +61,12 @@ class BoardsProvider with ChangeNotifier {
         _productsToBoards.update(ProductId, (value) => BoardIds);
       }
     }
+
+    // var AllBoardIds = _boards.keys.toLi/st();
+    Set<String> BoardIdsSet = {};
+    for (int i = 0; i < BoardIds.length; i++) {
+      BoardIdsSet.add(BoardIds[i]);
+    }
+    _boards.values.map((e) => !BoardIdsSet.contains(e.boardId) ? e.favorites.remove(ProductId) : null);
   }
 }
