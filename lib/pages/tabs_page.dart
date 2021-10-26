@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trendmate/pages/boards/boards_page.dart';
 import 'package:trendmate/pages/social/social_page.dart';
 import 'package:trendmate/pages/social/social_search.dart';
 
@@ -23,6 +24,7 @@ class _TabsPageState extends State<TabsPage> {
     _pages = [
       {'page': ProductsPage(), 'title': 'Home'},
       {'page': FavouritesPage(), 'title': 'Favourites'},
+      {'page': BoardsPage(), 'title': 'Boards'},
       {'page': PostsPage(), 'title': 'Posts'},
       {'page': SocialPage(), 'title': 'Social'},
     ];
@@ -47,7 +49,7 @@ class _TabsPageState extends State<TabsPage> {
               _pages[_selectedPageIndex]['title'].toString(),
               style: TextStyle(color: Colors.black, fontSize: 21),
             ),
-            if (_selectedPageIndex == 3)
+            if (_selectedPageIndex == 4)
               Expanded(
                 child: GestureDetector(
                   onTap: () {
@@ -83,6 +85,10 @@ class _TabsPageState extends State<TabsPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_outline),
             label: 'Favourites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_add_check),
+            label: 'Boards',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.mobile_friendly),

@@ -5,8 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:trendmate/pages/auth/login_page.dart';
 import 'package:trendmate/pages/auth/otp_page.dart';
 import 'package:trendmate/pages/auth/signup_page.dart';
+import 'package:trendmate/pages/boards/board_detail.dart';
+import 'package:trendmate/pages/boards/boards_page.dart';
 import 'package:trendmate/pages/posts/post_detail.dart';
 import 'package:trendmate/constants/config.dart';
+import 'package:trendmate/providers/boards_provider.dart';
 import 'package:trendmate/providers/filters_provider.dart';
 import 'package:trendmate/providers/posts_provider.dart';
 import 'package:trendmate/providers/products_provider.dart';
@@ -43,6 +46,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (ctx) => FiltersProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (ctx) => BoardsProvider(),
+          ),
           ChangeNotifierProvider(create: (ctx) => PostsProvider()),
           ChangeNotifierProxyProvider<UserProvider, SocialProvider>(
             create: (ctx) => SocialProvider(),
@@ -54,15 +60,17 @@ class MyApp extends StatelessWidget {
             title: 'TrendMate',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
-            // home: const TabsPage(),
+            home: const TabsPage(),
             // home: OtpScreen("0123456789", "1234"),
-            home: LoginPage(),
+            // home: LoginPage(),
             routes: {
               SignUpPage.routeName: (ctx) => SignUpPage(),
               LoginPage.routeName: (ctx) => LoginPage(),
               OtpPage.routeName: (ctx) => OtpPage(),
               TabsPage.routeName: (ctx) => TabsPage(),
               FilterScreen.routeName: (ctx) => FilterScreen(),
+              BoardsPage.routeName: (ctx) => BoardsPage(),
+              BoardDetail.routeName: (ctx) => BoardDetail(),
               ProductsPage.routeName: (ctx) => ProductsPage(),
               PostsPage.routeName: (ctx) => PostsPage(),
               FavouritesPage.routeName: (ctx) => FavouritesPage(),
