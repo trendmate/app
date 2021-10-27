@@ -3,7 +3,9 @@ import 'package:trendmate/models/ecom/product.dart';
 import 'package:trendmate/models/social/board.dart';
 
 class BoardsProvider with ChangeNotifier {
+  // Board id VS Board
   Map<String, Board> _boards = {};
+  // product id VS list of Board Id
   Map<String, List<String>> _productsToBoards = {};
 
   void dummyInit() {
@@ -67,6 +69,45 @@ class BoardsProvider with ChangeNotifier {
     for (int i = 0; i < BoardIds.length; i++) {
       BoardIdsSet.add(BoardIds[i]);
     }
-    _boards.values.map((e) => !BoardIdsSet.contains(e.boardId) ? e.favorites.remove(ProductId) : null);
+    _boards.values.map((e) => !BoardIdsSet.contains(e.boardId)
+        ? e.favorites.remove(ProductId)
+        : null);
   }
+
+  void addProductToBoard(String ProductId, String BoardId) {
+    if (!_productsToBoards.containsKey(ProductId)) {
+      _productsToBoards.putIfAbsent(ProductId, () => [BoardId]);
+    } else {
+        _productsToBoards.update(ProductId, (value) {
+        value.add(BoardId);
+
+        return value;
+      });
+    }
+  }
+
+  void removeProductFromBoard(String ProductId, String BoardId) {
+    if (!_productsToBoards.containsKey(ProductId)) {
+      return;
+    } else {
+        _productsToBoards.update(ProductId, (value) {
+        value.remove(BoardId);
+
+        return value;
+      });
+    }
+  }
+
+  List<String> listOfBoards(String productId) {
+    return _productsToBoards[productId]!.toList();
+  }
+
+  List<String> allBoardIds() {
+    return _boards.keys.toList();
+  }
+
+  Set<String> setOfBoards(String productId) {
+    return _productsToBoards[productId]!.toSet();
+  }
+
 }

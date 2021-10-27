@@ -14,6 +14,69 @@ class ProductWidget extends StatefulWidget {
 }
 
 class _ProductWidgetState extends State<ProductWidget> {
+  void _createAddRemoveBuilders(
+      BuildContext ctx,
+      ProductsProvider productsProvider,
+      BoardsProvider boardsProvider,
+      int productId) {
+    Set<String> SetOfBoards = boardsProvider
+        .setOfBoards(productsProvider.products[productId].productId);
+    List<String> AllBoardIds = boardsProvider.allBoardIds();
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          // avoid reset on tap
+          return GestureDetector(
+            onTap: () {},
+            child: SizedBox(
+              height: 700,
+              child: Column(children: [
+                IconButton(
+                    onPressed: () {
+                      // TODO
+                      // PROMPT USER TO INPUT NAME OF NEW BOARD
+                      setState(() {
+                        boardsProvider.createNewBoard("name");
+                      });
+                    },
+                    icon: Icon(Icons.add)),
+                ListView.builder(
+                    itemCount: AllBoardIds.length,
+                    itemBuilder: (ctx, i) {
+                      bool isChecked = SetOfBoards.contains(AllBoardIds[i]);
+
+                      return ListTile(
+                        leading: Checkbox(
+                          value: isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked = value!;
+                              if (isChecked == true) {
+                                // Add that board to Maps
+                                boardsProvider.addProductToBoard(
+                                    productsProvider
+                                        .products[productId].productId,
+                                    AllBoardIds[i]);
+                              } else {
+                                // Remove that board from Maps
+                                boardsProvider.removeProductFromBoard(
+                                    productsProvider
+                                        .products[productId].productId,
+                                    AllBoardIds[i]);
+                              }
+                            });
+                          },
+                        ),
+                        title: Text(AllBoardIds[i]),
+                      );
+                    }),
+              ]),
+            ),
+            behavior: HitTestBehavior.opaque,
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
@@ -45,7 +108,7 @@ class _ProductWidgetState extends State<ProductWidget> {
               Container(
                 padding: EdgeInsets.only(left: 10, bottom: 10),
                 child: Text(
-                  "Rs.${productsProvider.products[widget.idx].price.toString()}",
+                  "Rs. ${productsProvider.products[widget.idx].price.toString()}",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.blue[600]),
                 ),
@@ -58,18 +121,19 @@ class _ProductWidgetState extends State<ProductWidget> {
                     icon: Icon(Icons.library_add),
                     onPressed: () {
                       // TODO
+                      return _createAddRemoveBuilders(context, productsProvider,
+                          boardsProvider, widget.idx);
                     },
                   )),
                   Container(
                     child: IconButton(
                       color: Colors.red,
-                      icon: Icon(productsProvider.favoritesMap
-                              .containsKey(productsProvider
-                                  .products[widget.idx].productId)
+                      icon: Icon(productsProvider.favoritesMap.containsKey(
+                              productsProvider.products[widget.idx].productId)
                           ? Icons.favorite
                           : Icons.favorite_border),
-                      onPressed: () => productsProvider
-                          .addRemoveFavorites(widget.idx),
+                      onPressed: () =>
+                          productsProvider.addRemoveFavorites(widget.idx),
                     ),
                   ),
                 ],
