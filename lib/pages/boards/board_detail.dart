@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trendmate/providers/boards_provider.dart';
-import 'package:trendmate/providers/products_provider.dart';
 import 'package:trendmate/widgets/product_widget.dart';
 
 class BoardDetail extends StatefulWidget {
