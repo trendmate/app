@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:trendmate/pages/auth/login_page.dart';
 import 'package:trendmate/pages/auth/otp_page.dart';
-import 'package:trendmate/pages/tabs_page.dart';
+import 'package:trendmate/services/firebase_methods.dart';
+import 'package:trendmate/utils/utils.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
   static const routeName = '/signup-page';
-  // final Function addUser;
-
-  // SignUpPage(this.addUser);
-
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
@@ -19,7 +16,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final _phoneController = TextEditingController();
 
   void _submitData() {
-    // print("Hello");
     final enteredName = _nameController.text;
     final enteredPhone = _phoneController.text;
 
@@ -27,11 +23,18 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
 
-    // print(enteredPhone);
-    // print(enteredName);
-    Navigator.pushReplacementNamed(context, OtpPage.routeName);
-    // send phone for opt validation and save new user if valid
-    // else display error
+    FirebaseMethods.instance.phoneAuth(
+        enteredPhone,
+        (credential) => null,
+        (e) => Utils.showToast("Error: $e"),
+        (verificationId, resendToken) => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (ctx) => OtpPage(
+                      verId: verificationId,
+                      name: enteredName,
+                      phone: enteredPhone,
+                    ))));
   }
 
   @override
@@ -75,7 +78,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     onSubmitted: (_) => _submitData(),
                     // onChanged: (val) => amountInput = val,
                   ),
-                  FlatButton(
+                  ElevatedButton(
                       // onPressed: () {
                       //   // send values to user_transactions.dart
                       //   // print(_nameController.text);
@@ -83,12 +86,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       //   _submitData;
                       // },
                       onPressed: _submitData,
-                      color: Theme.of(context).primaryColor,
                       child: Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
                       )),
-                  FlatButton(
+                  ElevatedButton(
                       onPressed: () => Navigator.of(context)
                           .pushReplacementNamed(LoginPage.routeName),
                       child: Text("Already registered?")),

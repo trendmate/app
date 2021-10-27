@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trendmate/providers/boards_provider.dart';
 import 'package:trendmate/providers/products_provider.dart';
 
 class ProductWidget extends StatefulWidget {
@@ -17,7 +16,7 @@ class _ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
-    final boardsProvider = Provider.of<BoardsProvider>(context);
+    // final boardsProvider = Provider.of<BoardsProvider>(context);
 
     return Card(
       child: Container(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:trendmate/pages/auth/login_page.dart';
-import 'package:trendmate/pages/auth/otp_page.dart';
 import 'package:trendmate/pages/auth/signup_page.dart';
 import 'package:trendmate/pages/boards/board_detail.dart';
 import 'package:trendmate/pages/boards/boards_page.dart';
@@ -24,7 +23,7 @@ import 'package:trendmate/providers/social_provider.dart';
 import 'package:trendmate/providers/user_provider.dart';
 
 void main() async {
-  Config.UItest = true;
+  Config.UItest = false;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -60,13 +59,14 @@ class MyApp extends StatelessWidget {
             title: 'TrendMate',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
-            home: const TabsPage(),
-            // home: OtpScreen("0123456789", "1234"),
-            // home: LoginPage(),
+            home: Consumer<UserProvider>(
+              builder: (BuildContext context, value, Widget? child) =>
+                  value.user == null ? LoginPage() : TabsPage(),
+            ),
             routes: {
               SignUpPage.routeName: (ctx) => SignUpPage(),
               LoginPage.routeName: (ctx) => LoginPage(),
-              OtpPage.routeName: (ctx) => OtpPage(),
+              // OtpPage.routeName: (ctx) => OtpPage(), dynamic route
               TabsPage.routeName: (ctx) => TabsPage(),
               FilterScreen.routeName: (ctx) => FilterScreen(),
               BoardsPage.routeName: (ctx) => BoardsPage(),

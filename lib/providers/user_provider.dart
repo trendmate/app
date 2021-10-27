@@ -24,6 +24,18 @@ class UserProvider with ChangeNotifier {
         user = User.demo();
       }
 
+      auth.FirebaseAuth.instance.authStateChanges().listen((auth.User? _user) {
+        if (user == null) {
+          print('User is currently signed out!');
+        } else {
+          String? uid = _user?.uid;
+          if (uid != null)
+            FirebaseMethods.instance.getCurrentUser(uid).then((value) {
+              user = value;
+            });
+        }
+      });
+
       String? uid = auth.FirebaseAuth.instance.currentUser?.uid;
       if (uid != null)
         user = await FirebaseMethods.instance.getCurrentUser(uid);

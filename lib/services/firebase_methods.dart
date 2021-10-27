@@ -20,14 +20,24 @@ class FirebaseMethods {
   Future<void> phoneAuth(
       String phone,
       Function(auth.PhoneAuthCredential credential) verCompleted,
-      Function(auth.FirebaseAuthException e) verFailed) async {
+      Function(auth.FirebaseAuthException e) verFailed,
+      Function(String verificationId, int? resendToken) codeSent) async {
     return await auth.FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+91' + phone,
       verificationCompleted: verCompleted,
       verificationFailed: verFailed,
-      codeSent: (String verificationId, int? resendToken) {},
+      codeSent: codeSent,
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
+  }
+
+  Future<void> signUp(String name, String phone, String uid) {
+    final user = User.demo().copyWith(name: name, phone: phone, uid: uid);
+
+    return _firestore
+        .collection(StringConstants.USERS)
+        .doc(uid)
+        .set(user.toMap());
   }
 
   Future<User> getCurrentUser(String uid) async {

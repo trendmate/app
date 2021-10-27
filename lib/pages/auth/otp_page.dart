@@ -1,10 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:trendmate/pages/tabs_page.dart';
+import 'package:trendmate/services/firebase_methods.dart';
 
 class OtpPage extends StatefulWidget {
-  const OtpPage({Key? key}) : super(key: key);
+  const OtpPage({
+    Key? key,
+    required this.verId,
+    this.name,
+    this.phone,
+    this.uid,
+  }) : super(key: key);
   static const routeName = '/otp-page';
+
+  final String verId;
+  final String? name;
+  final String? phone;
+  final String? uid;
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -90,22 +103,29 @@ class _OtpPageState extends State<OtpPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(
-                  horizontal: 20, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               constraints: const BoxConstraints(maxWidth: 500),
-              child: RaisedButton(
+              child: ElevatedButton(
                 onPressed: () {
-                  // TODO
-                  // loginStore.validateOtpAndLogin(context, text);
-                  Navigator.of(context)
-                      .pushReplacementNamed(TabsPage.routeName);
+                  PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                      verificationId: widget.verId, smsCode: text);
+                  FirebaseAuth.instance.signInWithCredential(credential).then(
+                      (value) => widget.name == null
+                          ? Navigator.of(context)
+                              .pushReplacementNamed(TabsPage.routeName)
+                          : FirebaseMethods.instance
+                              .signUp(widget.name!, widget.phone!, widget.uid!)
+                              .then((value) => Navigator.of(context)
+                                  .pushReplacementNamed(TabsPage.routeName)));
                 },
-                color: Theme.of(context).primaryColor,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(14))),
+                style: ButtonStyle(
+                    // shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.all(Radius.circular(14))
+                    //     ),
+                    ),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -133,10 +153,10 @@ class _OtpPageState extends State<OtpPage> {
             ),
             NumericKeyboard(
               onKeyboardTap: _onKeyboardTap,
-              textColor: Theme.of(context).primaryColorLight,
+              textColor: Theme.of(context).primaryColor,
               rightIcon: Icon(
                 Icons.backspace,
-                color: Theme.of(context).primaryColorLight,
+                color: Theme.of(context).primaryColor,
               ),
               rightButtonFn: () {
                 setState(() {
