@@ -49,21 +49,24 @@ class _ProductWidgetState extends State<ProductWidget> {
                       return ListTile(
                         leading: Checkbox(
                           value: checked[i]!,
-                          onChanged: (bool? value) {
+                          onChanged: (bool? boolValue) {
                             setState(() {
-                              checked[i] = value!;
                               if (checked[i]! == true) {
                                 // Add that board to Maps
-                                boardsProvider.addProductToBoard(
-                                    productsProvider
-                                        .products[productId].productId,
-                                    allBoardIds[i]);
+                                boardsProvider
+                                    .addProductToBoard(
+                                        productsProvider
+                                            .products[productId].productId,
+                                        allBoardIds[i])
+                                    .then((value) => checked[i] = boolValue!);
                               } else {
                                 // Remove that board from Maps
-                                boardsProvider.removeProductFromBoard(
-                                    productsProvider
-                                        .products[productId].productId,
-                                    allBoardIds[i]);
+                                boardsProvider
+                                    .removeProductFromBoard(
+                                        productsProvider
+                                            .products[productId].productId,
+                                        allBoardIds[i])
+                                    .then((value) => checked[i] = boolValue!);
                               }
                             });
                           },
