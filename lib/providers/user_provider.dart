@@ -37,6 +37,7 @@ class UserProvider with ChangeNotifier {
       });
 
       String? uid = auth.FirebaseAuth.instance.currentUser?.uid;
+      print(uid);
       if (uid != null)
         user = await FirebaseMethods.instance.getCurrentUser(uid);
       notifyListeners();

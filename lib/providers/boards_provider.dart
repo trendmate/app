@@ -13,8 +13,8 @@ class BoardsProvider with ChangeNotifier {
     _boards.putIfAbsent(
         "1",
         () => Board(boardId: "1", title: "board-1", image: "", favorites: {
-              "productId-1": Product(
-                  productId: "productId-1",
+              "productId": Product(
+                  productId: "productId",
                   brand: "brand",
                   category: "category",
                   description: "description",
@@ -36,7 +36,7 @@ class BoardsProvider with ChangeNotifier {
                   fromBoardName: "fromBoardName")
             }));
 
-    _productsToBoards.putIfAbsent("productId-1", () => ["1"]);
+    _productsToBoards.putIfAbsent("productId", () => ["1"]);
   }
 
   Map<String, Board> get boardsMap {
@@ -78,7 +78,7 @@ class BoardsProvider with ChangeNotifier {
     if (!_productsToBoards.containsKey(ProductId)) {
       _productsToBoards.putIfAbsent(ProductId, () => [BoardId]);
     } else {
-        _productsToBoards.update(ProductId, (value) {
+      _productsToBoards.update(ProductId, (value) {
         value.add(BoardId);
 
         return value;
@@ -90,7 +90,7 @@ class BoardsProvider with ChangeNotifier {
     if (!_productsToBoards.containsKey(ProductId)) {
       return;
     } else {
-        _productsToBoards.update(ProductId, (value) {
+      _productsToBoards.update(ProductId, (value) {
         value.remove(BoardId);
 
         return value;
@@ -107,7 +107,9 @@ class BoardsProvider with ChangeNotifier {
   }
 
   Set<String> setOfBoards(String productId) {
+    print(productId);
+    print(_productsToBoards.entries.first.key);
+
     return _productsToBoards[productId]!.toSet();
   }
-
 }

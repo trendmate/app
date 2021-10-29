@@ -26,53 +26,55 @@ class _ProductWidgetState extends State<ProductWidget> {
         context: ctx,
         builder: (_) {
           // avoid reset on tap
-          return GestureDetector(
-            onTap: () {},
-            child: SizedBox(
-              height: 700,
-              child: Column(children: [
-                IconButton(
-                    onPressed: () {
-                      // TODO
-                      // PROMPT USER TO INPUT NAME OF NEW BOARD
-                      setState(() {
-                        boardsProvider.createNewBoard("name");
-                      });
-                    },
-                    icon: Icon(Icons.add)),
-                ListView.builder(
-                    itemCount: AllBoardIds.length,
-                    itemBuilder: (ctx, i) {
-                      bool isChecked = SetOfBoards.contains(AllBoardIds[i]);
+          return StatefulBuilder(
+            builder: (context, setState) => GestureDetector(
+              onTap: () {},
+              child: SizedBox(
+                height: 700,
+                child: Column(children: [
+                  IconButton(
+                      onPressed: () {
+                        // TODO PROMPT USER TO INPUT NAME OF NEW BOARD
+                        setState(() {
+                          boardsProvider.createNewBoard("name");
+                        });
+                      },
+                      icon: Icon(Icons.add)),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: AllBoardIds.length,
+                      itemBuilder: (ctx, i) {
+                        bool isChecked = SetOfBoards.contains(AllBoardIds[i]);
 
-                      return ListTile(
-                        leading: Checkbox(
-                          value: isChecked,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isChecked = value!;
-                              if (isChecked == true) {
-                                // Add that board to Maps
-                                boardsProvider.addProductToBoard(
-                                    productsProvider
-                                        .products[productId].productId,
-                                    AllBoardIds[i]);
-                              } else {
-                                // Remove that board from Maps
-                                boardsProvider.removeProductFromBoard(
-                                    productsProvider
-                                        .products[productId].productId,
-                                    AllBoardIds[i]);
-                              }
-                            });
-                          },
-                        ),
-                        title: Text(AllBoardIds[i]),
-                      );
-                    }),
-              ]),
+                        return ListTile(
+                          leading: Checkbox(
+                            value: isChecked,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isChecked = value!;
+                                if (isChecked == true) {
+                                  // Add that board to Maps
+                                  boardsProvider.addProductToBoard(
+                                      productsProvider
+                                          .products[productId].productId,
+                                      AllBoardIds[i]);
+                                } else {
+                                  // Remove that board from Maps
+                                  boardsProvider.removeProductFromBoard(
+                                      productsProvider
+                                          .products[productId].productId,
+                                      AllBoardIds[i]);
+                                }
+                              });
+                            },
+                          ),
+                          title: Text(AllBoardIds[i]),
+                        );
+                      }),
+                ]),
+              ),
+              behavior: HitTestBehavior.opaque,
             ),
-            behavior: HitTestBehavior.opaque,
           );
         });
   }
@@ -120,7 +122,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                       child: IconButton(
                     icon: Icon(Icons.library_add),
                     onPressed: () {
-                      // TODO
+                      // TODO add remove collection dialog
                       return _createAddRemoveBuilders(context, productsProvider,
                           boardsProvider, widget.idx);
                     },

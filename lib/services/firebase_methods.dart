@@ -61,9 +61,9 @@ class FirebaseMethods {
   Future<List<Product>> getPrductsOfBoard(String boardId) async {
     List<Product> res = [];
 
-    final board = Board.fromMap(
-        (await _firestore.collection(StringConstants.BOARDS).doc(boardId).get())
-            .data()!);
+    // final board = Board.fromMap(
+    //     (await _firestore.collection(StringConstants.BOARDS).doc(boardId).get())
+    //         .data()!);
 
     // for (String productId in board.products) {
     //   final prod = Product.fromMap((await _firestore
