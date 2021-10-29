@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:trendmate/models/ecom/product.dart';
 import 'package:trendmate/models/social/board.dart';
+import 'package:trendmate/services/firebase_methods.dart';
 
 class BoardsProvider with ChangeNotifier {
   // Board id VS Board
@@ -53,45 +54,47 @@ class BoardsProvider with ChangeNotifier {
   }
 
   // BoardIds is new updated list of current boards
-  void updateBoards(String ProductId, List<String> BoardIds) {
-    if (!_productsToBoards.containsKey(ProductId)) {
-      _productsToBoards.putIfAbsent(ProductId, () => BoardIds);
+  void updateBoards(String productId, List<String> boardIds) {
+    if (!_productsToBoards.containsKey(productId)) {
+      _productsToBoards.putIfAbsent(productId, () => boardIds);
     } else {
-      if (BoardIds.length == 0) {
-        _productsToBoards.remove(ProductId);
+      if (boardIds.length == 0) {
+        _productsToBoards.remove(productId);
       } else {
-        _productsToBoards.update(ProductId, (value) => BoardIds);
+        _productsToBoards.update(productId, (value) => boardIds);
       }
     }
 
     // var AllBoardIds = _boards.keys.toLi/st();
     Set<String> BoardIdsSet = {};
-    for (int i = 0; i < BoardIds.length; i++) {
-      BoardIdsSet.add(BoardIds[i]);
+    for (int i = 0; i < boardIds.length; i++) {
+      BoardIdsSet.add(boardIds[i]);
     }
     _boards.values.map((e) => !BoardIdsSet.contains(e.boardId)
-        ? e.favorites.remove(ProductId)
+        ? e.favorites.remove(productId)
         : null);
   }
 
-  void addProductToBoard(String ProductId, String BoardId) {
-    if (!_productsToBoards.containsKey(ProductId)) {
-      _productsToBoards.putIfAbsent(ProductId, () => [BoardId]);
+  Future<void> addProductToBoard(String productId, String boardId) async {
+    if (!_productsToBoards.containsKey(productId)) {
+      _productsToBoards.putIfAbsent(productId, () => [boardId]);
     } else {
-      _productsToBoards.update(ProductId, (value) {
-        value.add(BoardId);
+      await FirebaseMethods.instance.addProductToBoard(productId, boardId);
+      _productsToBoards.update(productId, (value) {
+        value.add(boardId);
 
         return value;
       });
     }
   }
 
-  void removeProductFromBoard(String ProductId, String BoardId) {
-    if (!_productsToBoards.containsKey(ProductId)) {
+  Future<void> removeProductFromBoard(String productId, String boardId) async {
+    if (!_productsToBoards.containsKey(productId)) {
       return;
     } else {
-      _productsToBoards.update(ProductId, (value) {
-        value.remove(BoardId);
+      await FirebaseMethods.instance.removeProductFromBoard(productId, boardId);
+      _productsToBoards.update(productId, (value) {
+        value.remove(boardId);
 
         return value;
       });

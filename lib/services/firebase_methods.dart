@@ -94,6 +94,36 @@ class FirebaseMethods {
         .update({'share_no': product.share_no});
   }
 
+  Future<void> addProductToBoard(String productId, String boardId) {
+    return _firestore.collection(StringConstants.BOARDS).doc(boardId).update({
+      'favorites': FieldValue.arrayUnion([productId])
+    });
+  }
+
+  Future<void> removeProductFromBoard(String productId, String boardId) {
+    return _firestore.collection(StringConstants.BOARDS).doc(boardId).update({
+      'favorites': FieldValue.arrayRemove([productId])
+    });
+  }
+
+  Future<void> removeFavorites(String productId) {
+    return _firestore
+        .collection(StringConstants.BOARDS)
+        .doc("favourites")
+        .update({
+      'favorites': FieldValue.arrayRemove([productId])
+    });
+  }
+
+  Future<void> addFavorites(String productId) {
+    return _firestore
+        .collection(StringConstants.BOARDS)
+        .doc("favourites")
+        .update({
+      'favorites': FieldValue.arrayRemove([productId])
+    });
+  }
+
   Future<List<User>> socialSearchPeople(String query) async {
     return (await _firestore
             .collection(StringConstants.USERS)
