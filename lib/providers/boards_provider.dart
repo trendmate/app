@@ -107,8 +107,10 @@ class BoardsProvider with ChangeNotifier {
   }
 
   Set<String> setOfBoards(String productId) {
-    print(productId);
-    print(_productsToBoards.entries.first.key);
+    if (_productsToBoards[productId] == null)
+      return {
+        '',
+      };
 
     return _productsToBoards[productId]!.toSet();
   }

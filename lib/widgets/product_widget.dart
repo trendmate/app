@@ -19,61 +19,59 @@ class _ProductWidgetState extends State<ProductWidget> {
       ProductsProvider productsProvider,
       BoardsProvider boardsProvider,
       int productId) {
-    Set<String> SetOfBoards = boardsProvider
+    Map<int, bool?> checked = {};
+    Set<String> setOfBoards = boardsProvider
         .setOfBoards(productsProvider.products[productId].productId);
-    List<String> AllBoardIds = boardsProvider.allBoardIds();
+    List<String> allBoardIds = boardsProvider.allBoardIds();
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
           // avoid reset on tap
           return StatefulBuilder(
-            builder: (context, setState) => GestureDetector(
-              onTap: () {},
-              child: SizedBox(
-                height: 700,
-                child: Column(children: [
-                  IconButton(
-                      onPressed: () {
-                        // TODO PROMPT USER TO INPUT NAME OF NEW BOARD
-                        setState(() {
-                          boardsProvider.createNewBoard("name");
-                        });
-                      },
-                      icon: Icon(Icons.add)),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: AllBoardIds.length,
-                      itemBuilder: (ctx, i) {
-                        bool isChecked = SetOfBoards.contains(AllBoardIds[i]);
+            builder: (context, setState) => SizedBox(
+              height: 700,
+              child: Column(children: [
+                IconButton(
+                    onPressed: () {
+                      // TODO PROMPT USER TO INPUT NAME OF NEW BOARD
+                      setState(() {
+                        boardsProvider.createNewBoard("name");
+                      });
+                    },
+                    icon: Icon(Icons.add)),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: allBoardIds.length,
+                    itemBuilder: (ctx, i) {
+                      if (checked[i] == null)
+                        checked[i] = setOfBoards.contains(allBoardIds[i]);
 
-                        return ListTile(
-                          leading: Checkbox(
-                            value: isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isChecked = value!;
-                                if (isChecked == true) {
-                                  // Add that board to Maps
-                                  boardsProvider.addProductToBoard(
-                                      productsProvider
-                                          .products[productId].productId,
-                                      AllBoardIds[i]);
-                                } else {
-                                  // Remove that board from Maps
-                                  boardsProvider.removeProductFromBoard(
-                                      productsProvider
-                                          .products[productId].productId,
-                                      AllBoardIds[i]);
-                                }
-                              });
-                            },
-                          ),
-                          title: Text(AllBoardIds[i]),
-                        );
-                      }),
-                ]),
-              ),
-              behavior: HitTestBehavior.opaque,
+                      return ListTile(
+                        leading: Checkbox(
+                          value: checked[i]!,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              checked[i] = value!;
+                              if (checked[i]! == true) {
+                                // Add that board to Maps
+                                boardsProvider.addProductToBoard(
+                                    productsProvider
+                                        .products[productId].productId,
+                                    allBoardIds[i]);
+                              } else {
+                                // Remove that board from Maps
+                                boardsProvider.removeProductFromBoard(
+                                    productsProvider
+                                        .products[productId].productId,
+                                    allBoardIds[i]);
+                              }
+                            });
+                          },
+                        ),
+                        title: Text(allBoardIds[i]),
+                      );
+                    }),
+              ]),
             ),
           );
         });
