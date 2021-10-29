@@ -54,6 +54,6 @@ class ProductsPage extends StatelessWidget {
                   child: ProductWidget(idx),
                 );
               });
-        }));
+        })); 
   }
 }

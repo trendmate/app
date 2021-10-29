@@ -36,10 +36,14 @@ class SocialProvider with ChangeNotifier {
 
       final user = UserProvider.instance.user!;
       for (String frnd in user.friends) {
-        prods.addAll(await FirebaseMethods.instance.getLatestFavourites(frnd));
+        if (frnd.isNotEmpty)
+          prods
+              .addAll(await FirebaseMethods.instance.getLatestFavourites(frnd));
       }
       for (String boardId in user.followed_boards) {
-        prods.addAll(await FirebaseMethods.instance.getPrductsOfBoard(boardId));
+        if (boardId.isNotEmpty)
+          prods.addAll(
+              await FirebaseMethods.instance.getPrductsOfBoard(boardId));
       }
       notifyListeners();
     }
