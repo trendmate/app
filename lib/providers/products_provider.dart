@@ -48,7 +48,7 @@ class ProductsProvider with ChangeNotifier {
 
     return curr;
   }
-  
+
   List<Product> get favorites {
     return [..._favorites.values];
   }
@@ -57,10 +57,12 @@ class ProductsProvider with ChangeNotifier {
     return _favorites;
   }
 
-  void addRemoveFavorites(int idx) {
+  Future<void> addRemoveFavorites(int idx) async {
     if (_favorites.containsKey(_products[idx].productId)) {
+      await FirebaseMethods.instance.removeFavorites(_products[idx].productId);
       _favorites.remove(_products[idx].productId);
     } else {
+      await FirebaseMethods.instance.addFavorites(_products[idx].productId);
       _favorites.putIfAbsent(_products[idx].productId, () => _products[idx]);
     }
     notifyListeners();
