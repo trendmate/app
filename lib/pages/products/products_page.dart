@@ -5,7 +5,7 @@ import 'package:trendmate/widgets/product_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:trendmate/pages/favourites/favourites_page.dart';
 import 'package:trendmate/pages/boards/boards_page.dart';
-
+import 'package:trendmate/widgets/background.dart';
 import 'package:trendmate/pages/products/filters_screen.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -20,7 +20,7 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white30,
+        backgroundColor: Colors.blueGrey,
         elevation: 0,
         title: Text(
           "Top Trending",
@@ -38,30 +38,35 @@ class _ProductsPageState extends State<ProductsPage> {
           )
         ],
       ),
-      body: Consumer<ProductsProvider>(
-        builder: (BuildContext context, productsProvider, Widget? child) {
-          return GridView.builder(
-            padding: const EdgeInsets.all(10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 5,
-                childAspectRatio: 0.5),
-            itemCount: productsProvider.products.length,
-            itemBuilder: (ctx, idx) {
-              return GestureDetector(
-                onTap: () async {
-                  final _url = productsProvider.products[idx].url;
-                  print(_url);
-                  await canLaunch(_url)
-                      ? await launch(_url)
-                      : throw 'Could not launch $_url';
+      body: Stack(
+        children: [
+          BackgroundImage(),
+          Consumer<ProductsProvider>(
+            builder: (BuildContext context, productsProvider, Widget? child) {
+              return GridView.builder(
+                padding: const EdgeInsets.all(10),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                    childAspectRatio: 0.5),
+                itemCount: productsProvider.products.length,
+                itemBuilder: (ctx, idx) {
+                  return GestureDetector(
+                    onTap: () async {
+                      final _url = productsProvider.products[idx].url;
+                      print(_url);
+                      await canLaunch(_url)
+                          ? await launch(_url)
+                          : throw 'Could not launch $_url';
+                    },
+                    child: ProductWidget(idx),
+                  );
                 },
-                child: ProductWidget(idx),
               );
             },
-          );
-        },
+          ),
+        ],
       ),
     );
   }
