@@ -14,6 +14,7 @@ class ProductWidget extends StatefulWidget {
 }
 
 class _ProductWidgetState extends State<ProductWidget> {
+  // ignore: long-method
   void _createAddRemoveBuilders(
       BuildContext ctx,
       ProductsProvider productsProvider,
@@ -33,10 +34,36 @@ class _ProductWidgetState extends State<ProductWidget> {
               child: Column(children: [
                 IconButton(
                     onPressed: () {
-                      // TODO PROMPT USER TO INPUT NAME OF NEW BOARD
-                      setState(() {
-                        boardsProvider.createNewBoard("name");
-                      });
+                      String collectionName = "";
+                      showDialog(
+                          context: context,
+                          builder: (ctx) => Dialog(
+                                child: SizedBox(
+                                  height: 120.0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        TextFormField(
+                                          onChanged: (value) {
+                                            collectionName = value;
+                                          },
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              boardsProvider.createNewBoard(
+                                                  collectionName);
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          child: Text('ADD'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ));
                     },
                     icon: Icon(Icons.add)),
                 ListView.builder(

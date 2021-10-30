@@ -41,12 +41,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-          backgroundColor: Colors.white30,
+          backgroundColor: Colors.lightBlueAccent,
           elevation: 0,
           title: Text(
-            "Login",
-            style: TextStyle(color: Colors.black, fontSize: 21),
+            "LOGIN",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 21,
+              fontWeight: FontWeight.w600,
+            ),
           )),
       body: SingleChildScrollView(
         child: Container(
@@ -60,17 +65,21 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 TextField(
-                  decoration: InputDecoration(labelText: 'Phone No.'),
+                  decoration: InputDecoration(labelText: 'Enter Phone No.'),
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
                   onSubmitted: (_) => _submitData(),
                 ),
                 ElevatedButton(
-                    onPressed: _submitData,
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(color: Colors.white),
-                    )),
+                  onPressed: _submitData,
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
                 GestureDetector(
                     onTap: () => Navigator.of(context)
                         .pushReplacementNamed(SignUpPage.routeName),

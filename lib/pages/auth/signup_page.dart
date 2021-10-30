@@ -3,6 +3,7 @@ import 'package:trendmate/pages/auth/login_page.dart';
 import 'package:trendmate/pages/auth/otp_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 import 'package:trendmate/utils/utils.dart';
+import 'package:trendmate/pages/products/products_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -41,11 +42,12 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.white30,
+          backgroundColor: Colors.lightBlueAccent,
           elevation: 0,
           title: Text(
             "SignUp",
-            style: TextStyle(color: Colors.black, fontSize: 21),
+            style: TextStyle(
+                color: Colors.black, fontSize: 21, fontWeight: FontWeight.w600),
           )),
       body: GestureDetector(
         onTap: () {},
@@ -85,7 +87,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       //   // print(_phoneController.text);
                       //   _submitData;
                       // },
-                      onPressed: _submitData,
+                      onPressed: () {
+                        _submitData();
+                        Navigator.of(context).pushNamed(ProductsPage.routeName);
+                      },
                       child: Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),

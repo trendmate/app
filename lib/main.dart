@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:trendmate/pages/auth/login_page.dart';
 import 'package:trendmate/pages/auth/signup_page.dart';
+import 'package:trendmate/pages/auth/otp_page.dart';
 import 'package:trendmate/pages/boards/board_detail.dart';
 import 'package:trendmate/pages/boards/boards_page.dart';
 import 'package:trendmate/pages/posts/post_detail.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
             routes: {
               SignUpPage.routeName: (ctx) => SignUpPage(),
               LoginPage.routeName: (ctx) => LoginPage(),
-              // OtpPage.routeName: (ctx) => OtpPage(), dynamic route
+              //OtpPage.routeName: (ctx) => OtpPage(verId: '',),
               TabsPage.routeName: (ctx) => TabsPage(),
               FilterScreen.routeName: (ctx) => FilterScreen(),
               BoardsPage.routeName: (ctx) => BoardsPage(),
