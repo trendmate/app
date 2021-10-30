@@ -4,6 +4,7 @@ import 'package:trendmate/pages/auth/otp_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 import 'package:trendmate/utils/utils.dart';
 import 'package:trendmate/pages/products/products_page.dart';
+import 'package:trendmate/widgets/background.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -42,66 +43,86 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.lightBlueAccent,
+          backgroundColor: Colors.blueGrey,
           elevation: 0,
           title: Text(
             "SignUp",
             style: TextStyle(
-                color: Colors.black, fontSize: 21, fontWeight: FontWeight.w600),
+                color: Colors.black87,
+                fontSize: 21,
+                fontWeight: FontWeight.bold),
           )),
-      body: GestureDetector(
-        onTap: () {},
-        behavior: HitTestBehavior.opaque,
-        child: SingleChildScrollView(
-          child: Container(
-              padding: EdgeInsets.only(
-                top: 10,
-                left: 10,
-                right: 10,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Name'),
-                    controller: _nameController,
-                    // makes sure that form was submitted when button got pressed
-                    onSubmitted: (_) => _submitData(),
-                    // onChanged: (val) {
-                    //   titleInput = val;
-                    // },
+      body: Stack(
+        children: [
+          BackgroundImage(),
+          GestureDetector(
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+            child: SingleChildScrollView(
+              child: Container(
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    left: 10,
+                    right: 10,
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 10,
                   ),
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Phone No.'),
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    // makes sure that form was submitted when button got pressed
-                    onSubmitted: (_) => _submitData(),
-                    // onChanged: (val) => amountInput = val,
-                  ),
-                  ElevatedButton(
-                      // onPressed: () {
-                      //   // send values to user_transactions.dart
-                      //   // print(_nameController.text);
-                      //   // print(_phoneController.text);
-                      //   _submitData;
-                      // },
-                      onPressed: () {
-                        _submitData();
-                        Navigator.of(context).pushNamed(ProductsPage.routeName);
-                      },
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  ElevatedButton(
-                      onPressed: () => Navigator.of(context)
-                          .pushReplacementNamed(LoginPage.routeName),
-                      child: Text("Already registered?")),
-                ],
-              )),
-        ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(labelText: 'Name'),
+                        controller: _nameController,
+                        // makes sure that form was submitted when button got pressed
+                        onSubmitted: (_) => _submitData(),
+                        // onChanged: (val) {
+                        //   titleInput = val;
+                        // },
+                      ),
+                      TextField(
+                        decoration: InputDecoration(labelText: 'Phone No.'),
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        // makes sure that form was submitted when button got pressed
+                        onSubmitted: (_) => _submitData(),
+                        // onChanged: (val) => amountInput = val,
+                      ),
+                      ElevatedButton(
+                          // onPressed: () {
+                          //   // send values to user_transactions.dart
+                          //   // print(_nameController.text);
+                          //   // print(_phoneController.text);
+                          //   _submitData;
+                          // },
+                          onPressed: () {
+                            _submitData();
+                            Navigator.of(context)
+                                .pushNamed(ProductsPage.routeName);
+                          },
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )),
+                      ElevatedButton(
+                        onPressed: () => Navigator.of(context)
+                            .pushReplacementNamed(LoginPage.routeName),
+                        child: Text(
+                          "Already registered?",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+        ],
       ),
     );
   }

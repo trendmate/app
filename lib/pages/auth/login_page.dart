@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:trendmate/pages/auth/otp_page.dart';
 import 'package:trendmate/pages/auth/signup_page.dart';
 import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 import 'package:trendmate/utils/utils.dart';
+import 'package:trendmate/widgets/background.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -43,49 +45,70 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          backgroundColor: Colors.lightBlueAccent,
+          backgroundColor: Colors.blueGrey,
           elevation: 0,
           title: Text(
-            "LOGIN",
+            "Login/SignUp",
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.black87,
               fontSize: 21,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.bold,
             ),
           )),
-      body: SingleChildScrollView(
-        child: Container(
-            padding: EdgeInsets.only(
-              top: 10,
-              left: 10,
-              right: 10,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 10,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                TextField(
-                  decoration: InputDecoration(labelText: 'Enter Phone No.'),
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  onSubmitted: (_) => _submitData(),
-                ),
-                ElevatedButton(
-                  onPressed: _submitData,
-                  child: Text(
-                    'Submit',
+      body: Stack(
+        children: [
+          BackgroundImage(),
+          SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                top: 10,
+                left: 10,
+                right: 10,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Enter Phone No.'),
+                    controller: _phoneController,
+                    keyboardType: TextInputType.phone,
                     style: TextStyle(
+                      fontFamily: 'Poppins-Regular',
+                      fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                    ),
+                    cursorColor: Colors.blueAccent,
+                    onSubmitted: (_) => _submitData(),
+                  ),
+                  ElevatedButton(
+                    onPressed: _submitData,
+                    child: Text(
+                      'Submit',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                    onTap: () => Navigator.of(context)
-                        .pushReplacementNamed(SignUpPage.routeName),
-                    child: Text("New user?")),
-              ],
-            )),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(SignUpPage.routeName);
+                    },
+                    child: Text(
+                      'New User?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
