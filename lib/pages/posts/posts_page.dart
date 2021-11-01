@@ -32,9 +32,12 @@ class PostsPage extends StatelessWidget {
                   : Image.network(postsProvider.posts[index].medias[0].url),
               title: Row(
                 children: [
-                  Text(
-                    postsProvider.posts[index].title,
-                    style: TextStyle(color: Colors.grey, fontSize: 20),
+                  Expanded(
+                    child: Text(
+                      postsProvider.posts[index].title,
+                      maxLines: 2,
+                      style: TextStyle(color: Colors.grey, fontSize: 20),
+                    ),
                   ),
                   SizedBox(
                     width: 5,
