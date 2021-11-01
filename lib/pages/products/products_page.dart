@@ -38,35 +38,30 @@ class _ProductsPageState extends State<ProductsPage> {
           )
         ],
       ),
-      body: Stack(
-        children: [
-          BackgroundImage(),
-          Consumer<ProductsProvider>(
-            builder: (BuildContext context, productsProvider, Widget? child) {
-              return GridView.builder(
-                padding: const EdgeInsets.all(10),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                    childAspectRatio: 0.5),
-                itemCount: productsProvider.products.length,
-                itemBuilder: (ctx, idx) {
-                  return GestureDetector(
-                    onTap: () async {
-                      final _url = productsProvider.products[idx].url;
-                      print(_url);
-                      await canLaunch(_url)
-                          ? await launch(_url)
-                          : throw 'Could not launch $_url';
-                    },
-                    child: ProductWidget(idx),
-                  );
+      body: Consumer<ProductsProvider>(
+        builder: (BuildContext context, productsProvider, Widget? child) {
+          return GridView.builder(
+            padding: const EdgeInsets.all(10),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                childAspectRatio: 0.5),
+            itemCount: productsProvider.products.length,
+            itemBuilder: (ctx, idx) {
+              return GestureDetector(
+                onTap: () async {
+                  final _url = productsProvider.products[idx].url;
+                  print(_url);
+                  await canLaunch(_url)
+                      ? await launch(_url)
+                      : throw 'Could not launch $_url';
                 },
+                child: ProductWidget(idx),
               );
             },
-          ),
-        ],
+          );
+        },
       ),
     );
   }

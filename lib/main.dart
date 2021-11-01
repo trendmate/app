@@ -26,12 +26,10 @@ void main() async {
   Config.UItest = false;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -58,7 +56,10 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'TrendMate',
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
+            theme: ThemeData(
+              primarySwatch: Colors.blueGrey,
+              fontFamily: 'Poppins',
+            ),
             home: Consumer<UserProvider>(
               builder: (BuildContext context, value, Widget? child) =>
                   value.user == null ? LoginPage() : TabsPage(),
