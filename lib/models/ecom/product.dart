@@ -7,8 +7,8 @@ class Product {
   final String description;
   final String image;
   final String title;
-  final int price; // price*100
-  final int rating; // out of 500 (5.00)
+  final double price; // price*100
+  final double rating; // out of 500 (5.00)
   final int reviews_no;
   int share_no;
   final int trendiness;
@@ -50,8 +50,8 @@ class Product {
     String? description,
     String? image,
     String? title,
-    int? price,
-    int? rating,
+    double? price,
+    double? rating,
     int? reviews_no,
     int? share_no,
     int? trendiness,
@@ -112,6 +112,8 @@ class Product {
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
+    print("Product: " + map['productId']);
+
     return Product(
       productId: map['productId'],
       brand: map['brand'],
@@ -121,7 +123,7 @@ class Product {
       title: map['title'],
       price: map['price'],
       rating: map['rating'],
-      reviews_no: map['reviews_no'],
+      reviews_no: map['reviews_no'] != null ? map['reviews_no'] : 0,
       share_no: map['share_no'],
       trendiness: map['trendiness'],
       url: map['url'],
