@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
             backgroundColor: Colors.blueGrey,
             elevation: 0,
             title: Text(
-              "Login/SignUp",
+              "Login",
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 30,
