@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
+import 'package:trendmate/widgets/background.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({
@@ -61,7 +62,7 @@ class _OtpPageState extends State<OtpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.white30,
+          backgroundColor: Colors.blueGrey,
           elevation: 0,
           title: Text(
             "Otp Verification",

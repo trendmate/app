@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:trendmate/pages/auth/otp_page.dart';
 import 'package:trendmate/pages/auth/signup_page.dart';
 import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 import 'package:trendmate/utils/utils.dart';
+import 'package:trendmate/widgets/background.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -41,15 +43,20 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.white30,
-          elevation: 0,
-          title: Text(
-            "Login",
-            style: TextStyle(color: Colors.black, fontSize: 21),
-          )),
-      body: SingleChildScrollView(
-        child: Container(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+            backgroundColor: Colors.blueGrey,
+            elevation: 0,
+            title: Text(
+              "Login/SignUp",
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            )),
+        body: SingleChildScrollView(
+          child: Container(
             padding: EdgeInsets.only(
               top: 10,
               left: 10,
@@ -60,24 +67,43 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 TextField(
-                  decoration: InputDecoration(labelText: 'Phone No.'),
+                  decoration: InputDecoration(labelText: 'Enter Phone No.'),
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  cursorColor: Colors.blueAccent,
                   onSubmitted: (_) => _submitData(),
                 ),
                 ElevatedButton(
-                    onPressed: _submitData,
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                GestureDetector(
-                    onTap: () => Navigator.of(context)
-                        .pushReplacementNamed(SignUpPage.routeName),
-                    child: Text("New user?")),
+                  onPressed: _submitData,
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(SignUpPage.routeName);
+                  },
+                  child: Text(
+                    'New User?',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ],
-            )),
-      ),
-    );
+            ),
+          ),
+        ));
   }
 }
