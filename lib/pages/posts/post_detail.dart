@@ -38,7 +38,7 @@ class PostDetail extends StatelessWidget {
               onPressed: () {
                 // google maps will open the location when clicked on locaton icon button
                 launch(
-                    "http://maps.google.com/maps?z=12&t=m&q=loc:${loadedPost.location.latitude}+${loadedPost.location.longitude}");
+                    "http://maps.google.com/maps?z=12&t=m&q=loc:${loadedPost.location?.latitude}+${loadedPost.location?.longitude}");
               },
               icon: Icon(Icons.location_on))
         ],

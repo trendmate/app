@@ -11,11 +11,12 @@ class Post {
   final String by;
   final Timestamp dateTime;
   final List<Media> medias;
-  final GeoPoint location;
+  final GeoPoint? location;
   final int share_no;
   final List<String> tags;
   final String description;
   final List<String> products;
+  final double trendiness;
 
   Post({
     required this.postId,
@@ -23,11 +24,12 @@ class Post {
     required this.by,
     required this.dateTime,
     required this.medias,
-    required this.location,
+    this.location,
     required this.share_no,
     required this.tags,
     required this.description,
     required this.products,
+    required this.trendiness,
   });
 
   Post copyWith({
@@ -41,19 +43,20 @@ class Post {
     List<String>? tags,
     String? description,
     List<String>? products,
+    double? trendiness,
   }) {
     return Post(
-      postId: postId ?? this.postId,
-      title: title ?? this.title,
-      by: by ?? this.by,
-      dateTime: dateTime ?? this.dateTime,
-      medias: medias ?? this.medias,
-      location: location ?? this.location,
-      share_no: share_no ?? this.share_no,
-      tags: tags ?? this.tags,
-      description: description ?? this.description,
-      products: products ?? this.products,
-    );
+        postId: postId ?? this.postId,
+        title: title ?? this.title,
+        by: by ?? this.by,
+        dateTime: dateTime ?? this.dateTime,
+        medias: medias ?? this.medias,
+        location: location ?? this.location,
+        share_no: share_no ?? this.share_no,
+        tags: tags ?? this.tags,
+        description: description ?? this.description,
+        products: products ?? this.products,
+        trendiness: trendiness ?? this.trendiness);
   }
 
   Map<String, dynamic> toMap() {
@@ -68,6 +71,7 @@ class Post {
       'tags': tags,
       'description': description,
       'products': products,
+      'trendiness': trendiness,
     };
   }
 
@@ -83,6 +87,7 @@ class Post {
       tags: List<String>.from(map['tags']),
       description: map['description'],
       products: List<String>.from(map['products']),
+      trendiness: map['trendiness'],
     );
   }
 

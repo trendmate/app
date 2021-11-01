@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:trendmate/constants/strings.dart';
 import 'package:trendmate/models/ecom/product.dart';
 import 'package:trendmate/models/social/board.dart';
+import 'package:trendmate/models/social/post.dart';
 import 'package:trendmate/models/user.dart';
 
 class FirebaseMethods {
@@ -83,6 +84,16 @@ class FirebaseMethods {
         .map((e) => Product.fromMap(e.data()
           ..addAll({
             'productId': e.id,
+          })))
+        .toList();
+  }
+
+  Future<List<Post>> getPosts() async {
+    return (await _firestore.collection(StringConstants.POSTS).get())
+        .docs
+        .map((e) => Post.fromMap(e.data()
+          ..addAll({
+            'postId': e.id,
           })))
         .toList();
   }

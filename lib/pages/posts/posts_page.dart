@@ -10,7 +10,7 @@ class PostsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final postsProvider = Provider.of<PostsProvider>(context, listen: false);
-    postsProvider.dummyInit();
+    // postsProvider.dummyInit();
 
     if (postsProvider.posts.isEmpty) {
       return Center(
