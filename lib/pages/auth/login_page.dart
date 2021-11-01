@@ -43,73 +43,67 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
-          elevation: 0,
-          title: Text(
-            "Login/SignUp",
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 21,
-              fontWeight: FontWeight.bold,
-            ),
-          )),
-      body: Stack(
-        children: [
-          BackgroundImage(),
-          SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.only(
-                top: 10,
-                left: 10,
-                right: 10,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+            backgroundColor: Colors.blueGrey,
+            elevation: 0,
+            title: Text(
+              "Login/SignUp",
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Enter Phone No.'),
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
+            )),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextField(
+                  decoration: InputDecoration(labelText: 'Enter Phone No.'),
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  cursorColor: Colors.blueAccent,
+                  onSubmitted: (_) => _submitData(),
+                ),
+                ElevatedButton(
+                  onPressed: _submitData,
+                  child: Text(
+                    'Submit',
                     style: TextStyle(
-                      fontFamily: 'Poppins-Regular',
-                      fontWeight: FontWeight.bold,
                       color: Colors.white,
-                    ),
-                    cursorColor: Colors.blueAccent,
-                    onSubmitted: (_) => _submitData(),
-                  ),
-                  ElevatedButton(
-                    onPressed: _submitData,
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(SignUpPage.routeName);
-                    },
-                    child: Text(
-                      'New User?',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(SignUpPage.routeName);
+                  },
+                  child: Text(
+                    'New User?',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          )
-        ],
-      ),
-    );
+          ),
+        ));
   }
 }
