@@ -75,15 +75,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                    child: IconButton(
-                                  icon: Icon(Icons.library_add),
-                                  onPressed: () {
-                                    // TODO add remove collection dialog
-                                    // return _createAddRemoveBuilders(context, productsProvider,
-                                    //     boardsProvider, idx);
-                                  },
-                                )),
-                                Container(
                                   child: IconButton(
                                       color: Colors.red,
                                       icon: Icon(productsProvider.favoritesSet
