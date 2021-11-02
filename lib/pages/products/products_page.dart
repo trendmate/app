@@ -76,6 +76,7 @@ class _ProductsPageState extends State<ProductsPage> {
         });
   }
 
+  // ignore: long-method
   void bottomModalSheet(String productId) {
     showModalBottomSheet(
         context: context,
@@ -117,15 +118,16 @@ class _ProductsPageState extends State<ProductsPage> {
                               itemBuilder: (ctx, idx) {
                                 final boardId =
                                     boardsprovider.boardsList[idx].boardId;
+                                // ignore: newline-before-return
                                 return CheckboxListTile(
                                     title: Text(
                                         boardsprovider.boardsList[idx].title),
                                     value: boardsprovider
                                         .boardsOfProduct(productId)
                                         .contains(boardId),
-                                    onChanged: (bool? val) {
+                                    onChanged: (bool? value) {
                                       print("tap");
-                                      if (val == true) {
+                                      if (value == true) {
                                         print("true");
                                         boardsprovider.addSingleProduct(
                                             boardId, productId);
