@@ -16,37 +16,57 @@ class BoardsPage extends StatelessWidget {
       );
     } else {
       return ListView.builder(
-        // itemCount: boardsProvider.boardsMap.length,
         itemCount: boardsProvider.boardsList.length,
         itemBuilder: (ctx, index) => GestureDetector(
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(BoardDetail.routeName, arguments: boardsProvider.boardsList[index]);
+            Navigator.of(context).pushNamed(BoardDetail.routeName,
+                arguments: index);
           },
           child: Card(
             child: ListTile(
-              leading:  boardsProvider.boardsList[index]!.image == ''
+              leading: boardsProvider.boardsList[index].image == ''
                   ? Image.network(
                       "https://i.ebayimg.com/images/g/am8AAOSw4m9b~Bks/s-l400.jpg")
-                  : Image.network(boardsProvider.boardsList[index]!.image),
+                  : Image.network(boardsProvider.boardsList[index].image),
               title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                     boardsProvider.boardsList[index]!.title,
+                    boardsProvider.boardsList[index].title,
                     style: TextStyle(color: Colors.grey, fontSize: 20),
                   ),
                   SizedBox(
                     width: 5,
                   ),
                   Icon(Icons.people),
-                  Text(boardsProvider.boardsList[index]!.followers.toString()),
+                  Text(boardsProvider.boardsList[index].followers.toString()),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      // TODO
+                      // Edit name of board
+                      // old-name ---> boardsProvider.boardsList[index].title
+                      // method ---> boardsProvider.editBoardName(boardId, boardTitle)
+                    },
+                    icon: Icon(
+                      Icons.edit,
+                      color: Colors.orange,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      boardsProvider.deleteBoard(
+                          boardsProvider.boardsList[index].boardId);
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).errorColor,
+                    ),
+                  ),
                 ],
               ),
-              subtitle: Text(
-                 boardsProvider.boardsList[index]!.description,
-                overflow: TextOverflow.ellipsis,
-              ),
-              // trailing: Text(boardsProvider.boardsMap[index].by),
             ),
           ),
         ),
