@@ -59,10 +59,10 @@ class ProductsProvider with ChangeNotifier {
 
   Future<void> addRemoveFavorites(int idx) async {
     if (_favorites.containsKey(_products[idx].productId)) {
-      await FirebaseMethods.instance.removeFavorites(_products[idx].productId);
+      // await FirebaseMethods.instance.removeFavorites(_products[idx].productId);
       _favorites.remove(_products[idx].productId);
     } else {
-      await FirebaseMethods.instance.addFavorites(_products[idx].productId);
+      // await FirebaseMethods.instance.addFavorites(_products[idx].productId);
       _favorites.putIfAbsent(_products[idx].productId, () => _products[idx]);
     }
     notifyListeners();
