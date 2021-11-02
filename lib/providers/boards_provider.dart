@@ -104,5 +104,4 @@ class BoardsProvider with ChangeNotifier {
     }
     notifyListeners();
   }
-
 }

@@ -1,4 +1,5 @@
 import 'package:trendmate/providers/products_provider.dart';
+import 'package:trendmate/providers/boards_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trendmate/widgets/product_widget.dart';
@@ -16,6 +17,141 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
+  final titleController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    titleController.dispose();
+    super.dispose();
+  }
+
+  void newBoard() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            type: MaterialType.transparency,
+            child: Center(
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
+                  height: 200,
+                  width: 300,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "New Board",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      TextField(
+                        controller: titleController,
+                        decoration: InputDecoration(hintText: 'Title'),
+                      ),
+                      Row(
+                        children: [
+                          Consumer<BoardsProvider>(
+                            builder: (BuildContext context, boardsprovider,
+                                Widget? child) {
+                              return TextButton(
+                                  onPressed: () {
+                                    boardsprovider
+                                        .createNewBoard(titleController.text);
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Create"));
+                            },
+                          )
+                        ],
+                      )
+                    ],
+                  )),
+            ),
+          );
+        });
+  }
+
+  void bottomModalSheet(String productId) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Consumer<BoardsProvider>(
+              builder: (BuildContext context, boardsprovider, Widget? child) {
+            return Container(
+                height: 300,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Save product to..."),
+                            TextButton.icon(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  newBoard();
+                                },
+                                icon: Icon(Icons.add),
+                                label: Text("New Board"))
+                          ]),
+                    ),
+                    Divider(
+                      color: Colors.black,
+                    ),
+                    Container(
+                      height: 120,
+                      child: boardsprovider.boardsList.isEmpty
+                          ? Center(
+                              child: Text("No boards created yet"),
+                            )
+                          : ListView.builder(
+                              itemCount: boardsprovider.boardsList.length,
+                              itemBuilder: (ctx, idx) {
+                                final boardId =
+                                    boardsprovider.boardsList[idx].boardId;
+                                return CheckboxListTile(
+                                    title: Text(
+                                        boardsprovider.boardsList[idx].title),
+                                    value: boardsprovider
+                                        .boardsOfProduct(productId)
+                                        .contains(boardId),
+                                    onChanged: (bool? val) {
+                                      print("tap");
+                                      if (val == true) {
+                                        print("true");
+                                        boardsprovider.addSingleProduct(
+                                            boardId, productId);
+                                      } else
+                                        boardsprovider.removeSingleProduct(
+                                            boardId, productId);
+                                    });
+                              }),
+                    ),
+                    Divider(
+                      color: Colors.black,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Done")),
+                    )
+                  ],
+                ));
+          });
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,11 +233,11 @@ class _ProductsPageState extends State<ProductsPage> {
                                 children: [
                                   Container(
                                       child: IconButton(
+                                    color: Colors.teal[400],
                                     icon: Icon(Icons.library_add),
                                     onPressed: () {
-                                      // TODO add remove collection dialog
-                                      // return _createAddRemoveBuilders(context, productsProvider,
-                                      //     boardsProvider, idx);
+                                      bottomModalSheet(productsProvider
+                                          .products[idx].productId);
                                     },
                                   )),
                                   Container(
