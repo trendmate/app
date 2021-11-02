@@ -16,17 +16,15 @@ class _BoardDetailState extends State<BoardDetail> {
   @override
   Widget build(BuildContext context) {
     // BoardIndex will get us the Board we want to display
-    final BoardKey = ModalRoute.of(context)!.settings.arguments as String;
+    final BoardIndex = ModalRoute.of(context)!.settings.arguments as String;
     final boardsProvider = Provider.of<BoardsProvider>(context);
-    final imageKeys =
-        boardsProvider.boardsMap[BoardKey]!.favorites.keys.toList();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
         elevation: 0,
         title: Text(
-          boardsProvider.boardsMap[BoardKey]!.title,
+          "title",
           style: TextStyle(color: Colors.black, fontSize: 21),
         ),
       ),
@@ -46,9 +44,9 @@ class _BoardDetailState extends State<BoardDetail> {
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 5,
                       childAspectRatio: 0.5),
-                  itemCount: imageKeys.length,
+                  itemCount: 1,
                   itemBuilder: (ctx, idx) {
-                    return ProductWidget(idx);
+                    return Text("Hello");
                   }),
             ),
             // show no. of shares
