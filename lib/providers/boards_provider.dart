@@ -66,7 +66,9 @@ class BoardsProvider with ChangeNotifier {
     int index = _boards.indexWhere((element) => element.boardId == boardId);
     List<String> productIds = _boards[index].favorites;
     for (int i = 0; i < productIds.length; i++) {
-      _productsToBoards[productIds[i]]!.remove(boardId);
+      if (_productsToBoards.containsKey(productIds[i])) {
+        _productsToBoards[productIds[i]]!.remove(boardId);
+      }
     }
     _boards.removeWhere((element) => element.boardId == boardId);
     notifyListeners();
@@ -81,14 +83,20 @@ class BoardsProvider with ChangeNotifier {
   void removeSingleProduct(String boardId, String productId) {
     int index = _boards.indexWhere((element) => element.boardId == boardId);
     _boards[index].favorites.remove(productId);
-    _productsToBoards[productId]!.remove(boardId);
+    if (_productsToBoards.containsKey(productId)) {
+      _productsToBoards[productId]!.remove(boardId);
+    }
     notifyListeners();
   }
 
   void addSingleProduct(String boardId, String productId) {
     int index = _boards.indexWhere((element) => element.boardId == boardId);
     _boards[index].favorites.add(productId);
-    _productsToBoards[productId]!.add(boardId);
+    if (_productsToBoards.containsKey(productId)) {
+      _productsToBoards[productId]!.add(boardId);
+    } else {
+      _productsToBoards.putIfAbsent(productId, () => [boardId]);
+    }
     notifyListeners();
   }
 
