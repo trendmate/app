@@ -10,43 +10,40 @@ class BoardsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final boardsProvider = Provider.of<BoardsProvider>(context);
-    boardsProvider.dummyInit();
-    final keys = boardsProvider.boardsMap.keys.toList();
-    // print(boardsProvider.boardsMap["1"]);
-    if (boardsProvider.boardsMap.isEmpty) {
+    if (boardsProvider.boardsList.isEmpty) {
       return Center(
         child: Text("No boards to show!"),
       );
     } else {
       return ListView.builder(
         // itemCount: boardsProvider.boardsMap.length,
-        itemCount: keys.length,
+        itemCount: boardsProvider.boardsList.length,
         itemBuilder: (ctx, index) => GestureDetector(
           onTap: () {
             Navigator.of(context)
-                .pushNamed(BoardDetail.routeName, arguments: keys[index]);
+                .pushNamed(BoardDetail.routeName, arguments: boardsProvider.boardsList[index]);
           },
           child: Card(
             child: ListTile(
-              leading: boardsProvider.boardsMap[keys[index]]!.image == ''
+              leading:  boardsProvider.boardsList[index]!.image == ''
                   ? Image.network(
                       "https://i.ebayimg.com/images/g/am8AAOSw4m9b~Bks/s-l400.jpg")
-                  : Image.network(boardsProvider.boardsMap[index]!.image),
+                  : Image.network(boardsProvider.boardsList[index]!.image),
               title: Row(
                 children: [
                   Text(
-                    boardsProvider.boardsMap[keys[index]]!.title,
+                     boardsProvider.boardsList[index]!.title,
                     style: TextStyle(color: Colors.grey, fontSize: 20),
                   ),
                   SizedBox(
                     width: 5,
                   ),
                   Icon(Icons.people),
-                  Text(boardsProvider.boardsMap[keys[index]]!.followers.toString()),
+                  Text(boardsProvider.boardsList[index]!.followers.toString()),
                 ],
               ),
               subtitle: Text(
-                boardsProvider.boardsMap[keys[index]]!.description,
+                 boardsProvider.boardsList[index]!.description,
                 overflow: TextOverflow.ellipsis,
               ),
               // trailing: Text(boardsProvider.boardsMap[index].by),

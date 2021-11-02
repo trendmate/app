@@ -5,9 +5,9 @@ import 'package:trendmate/models/ecom/product.dart';
 
 class Board {
   final String boardId;
-  final String title;
+  String title;
   final String image;
-  final Map<String, Product> favorites;
+  final List<String> favorites;
   final int followers;
   final String description;
   final List<String> posts;
@@ -28,7 +28,7 @@ class Board {
     String? boardId,
     String? title,
     String? image,
-    Map<String, Product>? favorites,
+    List<String>? favorites,
     int? followers,
     String? description,
     List<String>? posts,
@@ -65,7 +65,8 @@ class Board {
       image: map['image'],
       description: map['description'],
       posts: List<String>.from(map['posts']),
-      favorites: Map<String, Product>.from(map['favorites']),
+      // favorites: Map<String, Product>.from(map['favorites']),
+      favorites: List<String>.from(map['favorites']),
       tags: List<String>.from(map['tags']),
     );
   }
