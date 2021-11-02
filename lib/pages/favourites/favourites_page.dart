@@ -31,7 +31,87 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 childAspectRatio: 0.5),
             itemCount: productsProvider.favorites.length,
             itemBuilder: (ctx, idx) {
-              return ProductWidget(idx);
+              var product = productsProvider.products.firstWhere((element) => element.productId == productsProvider.favorites[idx]);
+
+
+              return Card(
+                child: Container(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            //alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Image.network(
+                              // TODO
+                              product.image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(8),
+                          // TODO
+                          child: Text(product.title),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 10, bottom: 10),
+                              child: Text(
+                                // TODO
+                                "Rs. ${product.price.toString()}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue[600]),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                    child: IconButton(
+                                  icon: Icon(Icons.library_add),
+                                  onPressed: () {
+                                    // TODO add remove collection dialog
+                                    // return _createAddRemoveBuilders(context, productsProvider,
+                                    //     boardsProvider, idx);
+                                  },
+                                )),
+                                Container(
+                                  child: IconButton(
+                                      color: Colors.red,
+                                      icon: Icon(productsProvider.favoritesSet
+                                              .contains(productsProvider
+                                                  .favorites[idx])
+                                          ? Icons.favorite
+                                          : Icons.favorite_border),
+                                      onPressed: () {
+                                        if (productsProvider.favoritesSet
+                                            .contains(productsProvider
+                                                .favorites[idx])) {
+                                          productsProvider.removeFavorites(
+                                              productsProvider
+                                                  .favorites[idx]);
+                                        } else {
+                                          productsProvider.addFavorites(
+                                              productsProvider
+                                                  .favorites[idx]);
+                                        }
+                                      }),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ]),
+                ),
+              );
             }),
       );
     }

@@ -60,10 +60,11 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blueGrey,
               fontFamily: 'Poppins',
             ),
-            home: Consumer<UserProvider>(
-              builder: (BuildContext context, value, Widget? child) =>
-                  value.user == null ? LoginPage() : TabsPage(),
-            ),
+            // home: Consumer<UserProvider>(
+            //   builder: (BuildContext context, value, Widget? child) =>
+            //       value.user == null ? LoginPage() : TabsPage(),
+            // ),
+            home: TabsPage(),
             routes: {
               SignUpPage.routeName: (ctx) => SignUpPage(),
               LoginPage.routeName: (ctx) => LoginPage(),
