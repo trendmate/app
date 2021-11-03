@@ -62,8 +62,8 @@ class SocialProduct extends StatelessWidget {
               Row(
                 children: [
                   product.fromUserName != null
-                      ? Text(product.fromUserName!)
-                      : Text(product.fromBoardName!),
+                      ? Text(product.fromUserName ?? "")
+                      : Text(product.fromBoardName ?? ""),
                   Spacer(),
                   Icon(
                     Icons.ios_share,

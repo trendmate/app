@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:trendmate/models/ecom/filter.dart';
 import 'package:trendmate/models/ecom/product.dart';
+import 'package:trendmate/models/user.dart';
+import 'package:trendmate/providers/user_provider.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 
 class ProductsProvider with ChangeNotifier {
-  static final ProductsProvider instance = ProductsProvider._internal();
-  ProductsProvider._internal() {
-    _init();
+  ProductsProvider(UserProvider? provider) {
+    _init(provider);
   }
-  factory ProductsProvider() {
-    return instance;
-  }
+
   bool initilised = false;
 
   List<Product> _products = [];
@@ -19,9 +18,18 @@ class ProductsProvider with ChangeNotifier {
   Set<String> _favoritesSet = {};
   List<String> _favoritesList = [];
 
-  Future _init() async {
-    if (!initilised) {
+  SocialProvider(UserProvider? provider) {
+    _init(provider);
+  }
+
+  User? user;
+
+  Future _init(UserProvider? provider) async {
+    if (provider == null) return;
+    if (!initilised || (provider.user != null && provider.user != user)) {
       _products = await FirebaseMethods.instance.getProducts();
+      _favoritesList = await FirebaseMethods.instance.getMyfavorites();
+      _favoritesSet = _favoritesList.toSet();
       initilised = true;
       notifyListeners();
     }
@@ -70,13 +78,17 @@ class ProductsProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void removeFavorites(String productId) {
+  Future<void> removeFavorites(String productId) async {
+    await FirebaseMethods.instance
+        .removeFavorites(productId, UserProvider.instance.user!.uid);
     _favoritesSet.remove(productId);
     _favoritesList.remove(productId);
     notifyListeners();
   }
 
-  void addFavorites(String productId) {
+  Future<void> addFavorites(String productId) async {
+    await FirebaseMethods.instance
+        .addFavorites(productId, UserProvider.instance.user!.uid);
     _favoritesSet.add(productId);
     _favoritesList.add(productId);
     notifyListeners();

@@ -16,5 +16,5 @@ class StringConstants {
   static const String POSTS = "temp_articles";
   // TODO = "posts";
   static const String BOARDS = "boards";
-  static const String FAVOURITES = "favourites";
+  static const String FAVORITES = "favorites";
 }

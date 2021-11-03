@@ -5,6 +5,7 @@ import 'package:trendmate/models/ecom/product.dart';
 import 'package:trendmate/models/social/board.dart';
 import 'package:trendmate/models/social/post.dart';
 import 'package:trendmate/models/user.dart';
+import 'package:trendmate/providers/user_provider.dart';
 
 class FirebaseMethods {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -60,28 +61,43 @@ class FirebaseMethods {
     return result;
   }
 
+  Future<List<Board>> getBoards() async {
+    return _firestore.collection(StringConstants.BOARDS).get().then(
+        (value) => value.docs.map((e) => Board.fromMap(e.data())).toList());
+  }
+
   Future<List<Product>> getPrductsOfBoard(String boardId) async {
     List<Product> res = [];
 
-    // final board = Board.fromMap(
-    //     (await _firestore.collection(StringConstants.BOARDS).doc(boardId).get())
-    //         .data()!);
+    final board = Board.fromMap(
+        (await _firestore.collection(StringConstants.BOARDS).doc(boardId).get())
+            .data()!);
 
-    // for (String productId in board.) {
-    //   final prod = Product.fromMap((await _firestore
-    //           .collection(StringConstants.PRODUCTS)
-    //           .doc(productId)
-    //           .get())
-    //       .data()!);
-    //   res.add(prod);
-    // }
+    for (String productId in board.favorites) {
+      print(productId);
+      final prod = Product.fromMap((await _firestore
+              .collection(StringConstants.PRODUCTS)
+              .doc(productId)
+              .get())
+          .data()!
+        ..addAll({
+          'productId': productId,
+        }));
+      res.add(prod);
+    }
 
     return res;
   }
 
-  Future<void> follow(User user) {
+  Future<void> followUser(User user) {
     return _firestore.collection(StringConstants.USERS).doc(user.uid).update({
       'friends': FieldValue.arrayUnion([user.uid])
+    });
+  }
+
+  Future<void> followBoard(String uid, Board board) {
+    return _firestore.collection(StringConstants.USERS).doc(uid).update({
+      'followed_boards': FieldValue.arrayUnion([board.boardId])
     });
   }
 
@@ -93,6 +109,16 @@ class FirebaseMethods {
             'productId': e.id,
           })))
         .toList();
+  }
+
+  Future<List<String>> getMyfavorites() {
+    return _firestore
+        .collection(StringConstants.USERS)
+        .doc(UserProvider.instance.user!.uid)
+        .collection(StringConstants.FAVORITES)
+        .get()
+        .then((value) =>
+            value.docs.map((e) => e['productId'] as String).toList());
   }
 
   Future<List<Post>> getPosts() async {
@@ -118,12 +144,10 @@ class FirebaseMethods {
     });
   }
 
-  Future<String> addBoard(String title) async {
+  Future<String> addBoard(Board board) async {
     final doc = _firestore.collection(StringConstants.BOARDS).doc();
-    await doc.set({
-      'title': title,
-      'favorites': [],
-    });
+    board.boardId = doc.id;
+    await doc.set(board.toMap());
 
     return doc.id;
   }
@@ -148,7 +172,7 @@ class FirebaseMethods {
     return _firestore
         .collection(StringConstants.USERS)
         .doc(uid)
-        .collection(StringConstants.FAVOURITES)
+        .collection(StringConstants.FAVORITES)
         .doc(productId)
         .delete();
   }
@@ -157,7 +181,7 @@ class FirebaseMethods {
     return _firestore
         .collection(StringConstants.USERS)
         .doc(uid)
-        .collection(StringConstants.FAVOURITES)
+        .collection(StringConstants.FAVORITES)
         .doc(productId)
         .set({'productId': productId});
   }

@@ -125,10 +125,10 @@ class _ProductsPageState extends State<ProductsPage> {
                                     onChanged: (bool? value) {
                                       if (value == true) {
                                         boardsprovider.addSingleProduct(
-                                            boardId, productId);
+                                            boardId!, productId);
                                       } else
                                         boardsprovider.removeSingleProduct(
-                                            boardId, productId);
+                                            boardId!, productId);
                                     });
                               }),
                     ),

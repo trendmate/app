@@ -63,9 +63,17 @@ class SocialProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> follow(User _user) async {
-    await FirebaseMethods.instance.follow(_user);
+  Future<void> followUser(User _user) async {
+    await FirebaseMethods.instance.followUser(_user);
     user!.friends.add(_user.uid);
+
+    notifyListeners();
+  }
+
+  Future<void> followBoard(Board _board) async {
+    await FirebaseMethods.instance
+        .followBoard(UserProvider.instance.user!.uid, _board);
+    UserProvider.instance.user!.followed_boards.add(_board.boardId!);
 
     notifyListeners();
   }
