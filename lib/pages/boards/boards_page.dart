@@ -3,9 +3,66 @@ import 'package:provider/provider.dart';
 import 'package:trendmate/pages/boards/board_detail.dart';
 import 'package:trendmate/providers/boards_provider.dart';
 
-class BoardsPage extends StatelessWidget {
+class BoardsPage extends StatefulWidget {
   static const routeName = '/boards-page';
   const BoardsPage({Key? key}) : super(key: key);
+
+  @override
+  State<BoardsPage> createState() => _BoardsPageState();
+}
+
+class _BoardsPageState extends State<BoardsPage> {
+  final titleController = TextEditingController();
+
+  void editBoard(String boardId) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            type: MaterialType.transparency,
+            child: Center(
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
+                  height: 200,
+                  width: 300,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "New Title",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      TextField(
+                        controller: titleController,
+                        decoration: InputDecoration(hintText: 'Title'),
+                      ),
+                      Row(
+                        children: [
+                          Consumer<BoardsProvider>(
+                            builder: (BuildContext context, boardsprovider,
+                                Widget? child) {
+                              return TextButton(
+                                  onPressed: () {
+                                    boardsprovider.editBoardName(
+                                        boardId, titleController.text);
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Save"));
+                            },
+                          )
+                        ],
+                      )
+                    ],
+                  )),
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +76,8 @@ class BoardsPage extends StatelessWidget {
         itemCount: boardsProvider.boardsList.length,
         itemBuilder: (ctx, index) => GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(BoardDetail.routeName,
-                arguments: index);
+            Navigator.of(context)
+                .pushNamed(BoardDetail.routeName, arguments: index);
           },
           child: Card(
             child: ListTile(
@@ -45,10 +102,7 @@ class BoardsPage extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      // TODO
-                      // Edit name of board
-                      // old-name ---> boardsProvider.boardsList[index].title
-                      // method ---> boardsProvider.editBoardName(boardId, boardTitle)
+                      editBoard(boardsProvider.boardsList[index].boardId);
                     },
                     icon: Icon(
                       Icons.edit,
