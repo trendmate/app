@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trendmate/providers/social_provider.dart';
-import 'package:trendmate/services/firebase_methods.dart';
 
 class SocialSearch extends StatefulWidget {
   SocialSearch({Key? key}) : super(key: key);
@@ -14,23 +12,15 @@ class SocialSearch extends StatefulWidget {
 class _SocialSearchState extends State<SocialSearch> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          elevation: 0,
-          title: Row(children: [
-            Text(
-              "",
-              style: TextStyle(color: Colors.black, fontSize: 21),
-            )
-          ])),
-      body: SafeArea(
-          child: Consumer<SocialProvider>(
-        builder: (context, provider, child) => Column(
-          children: [
-            Padding(
+    return Consumer<SocialProvider>(
+      builder: (context, provider, child) => Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            elevation: 0,
+            title: Padding(
               padding: const EdgeInsets.fromLTRB(32, 8, 8, 8),
               child: TextFormField(
+                autofocus: true,
                 onChanged: (value) => provider.setSearchText(value),
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
@@ -47,47 +37,73 @@ class _SocialSearchState extends State<SocialSearch> {
                     hintText: "Search"),
               ),
             ),
-            Text("People"),
-            Expanded(
-              child: ListView(
-                children: provider.searchedUsers
-                    .map((e) => Card(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                              child: Column(
-                            children: [
-                              Text(e.name),
-                              SizedBox(
-                                height: 8,
+          ),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Text("People"),
+                Expanded(
+                  child: ListView(
+                    children: provider.searchedUsers
+                        .map((e) => Card(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                  child: Column(
+                                children: [
+                                  Text(e.name),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        provider.followUser(e);
+                                      },
+                                      child: Text(
+                                          provider.user!.friends.contains(e.uid)
+                                              ? "Unfollow"
+                                              : "Follow"))
+                                ],
+                              )),
+                            )))
+                        .toList(),
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
+                Text("Boards"),
+                Expanded(
+                  child: ListView(
+                    children: provider.searchingBoards
+                        .map((e) => Card(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Text(e.title),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          provider.followBoard(e);
+                                        },
+                                        child: Text(provider
+                                                .user!.followed_boards
+                                                .contains(e.boardId)
+                                            ? "Unfollow"
+                                            : "Follow"))
+                                  ],
+                                ),
                               ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    provider.follow(e);
-                                  },
-                                  child: Text(
-                                      provider.user!.friends.contains(e.uid)
-                                          ? "Unfollow"
-                                          : "Follow"))
-                            ],
-                          )),
-                        )))
-                    .toList(),
-                scrollDirection: Axis.horizontal,
-              ),
+                            )))
+                        .toList(),
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
+              ],
             ),
-            Text("Boards"),
-            Expanded(
-              child: ListView(
-                children: provider.searchingBoards
-                    .map((e) => CachedNetworkImage(imageUrl: e.image))
-                    .toList(),
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-          ],
-        ),
-      )),
+          )),
     );
   }
 }

@@ -102,7 +102,7 @@ class _BoardsPageState extends State<BoardsPage> {
                   ),
                   IconButton(
                     onPressed: () {
-                      editBoard(boardsProvider.boardsList[index].boardId);
+                      editBoard(boardsProvider.boardsList[index].boardId!);
                     },
                     icon: Icon(
                       Icons.edit,
@@ -112,7 +112,7 @@ class _BoardsPageState extends State<BoardsPage> {
                   IconButton(
                     onPressed: () {
                       boardsProvider.deleteBoard(
-                          boardsProvider.boardsList[index].boardId);
+                          boardsProvider.boardsList[index].boardId!);
                     },
                     icon: Icon(
                       Icons.delete,

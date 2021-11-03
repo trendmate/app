@@ -1,9 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:trendmate/models/social/board.dart';
+import 'package:trendmate/models/user.dart';
 import 'package:trendmate/providers/user_provider.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 
 class BoardsProvider with ChangeNotifier {
+  BoardsProvider(UserProvider? provider) {
+    _init(provider);
+  }
+
+  bool initilised = false;
+  User? user;
+
+  Future _init(UserProvider? provider) async {
+    if (provider == null) return;
+    if (!initilised || (provider.user != user && provider.user != null)) {
+      initilised = true;
+      _boards = await FirebaseMethods.instance.getBoards();
+      notifyListeners();
+    }
+  }
+
   // Board id VS Board
   List<Board> _boards = [];
   // product id VS list of Board Id
@@ -49,13 +66,15 @@ class BoardsProvider with ChangeNotifier {
   }
 
   Future<void> createNewBoard(String name) async {
-    String id = await FirebaseMethods.instance.addBoard(name);
-    _boards.add(Board(
-      boardId: id,
+    final board = Board(
+      uid: UserProvider.instance.user!.uid,
       title: name,
       image: "",
       favorites: [],
-    ));
+    );
+    String id = await FirebaseMethods.instance.addBoard(board);
+    board.boardId = id;
+    _boards.add(board);
     notifyListeners();
   }
 
@@ -89,8 +108,7 @@ class BoardsProvider with ChangeNotifier {
   }
 
   Future<void> removeSingleProduct(String boardId, String productId) async {
-    await FirebaseMethods.instance
-        .removeFavorites(productId, UserProvider.instance.user!.uid);
+    await FirebaseMethods.instance.removeProductFromBoard(productId, boardId);
     int index = _boards.indexWhere((element) => element.boardId == boardId);
     _boards[index].favorites.remove(productId);
     if (_productsToBoards.containsKey(productId)) {
@@ -112,19 +130,19 @@ class BoardsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addProduct(
-      String productId, List<String> checkedBoardsIds) async {
-    await FirebaseMethods.instance
-        .addFavorites(productId, UserProvider.instance.user!.uid);
-    for (int i = 0; i < _boards.length; i++) {
-      if (_boards[i].favorites.contains(productId) &&
-          !checkedBoardsIds.contains(_boards[i].boardId)) {
-        removeSingleProduct(_boards[i].boardId, productId);
-      } else if (!_boards[i].favorites.contains(productId) &&
-          checkedBoardsIds.contains(_boards[i].boardId)) {
-        addSingleProduct(_boards[i].boardId, productId);
-      }
-    }
-    notifyListeners();
-  }
+  // Future<void> addProduct(
+  //     String productId, List<String> checkedBoardsIds) async {
+  //   await FirebaseMethods.instance
+  //       .addFavorites(productId, UserProvider.instance.user!.uid);
+  //   for (int i = 0; i < _boards.length; i++) {
+  //     if (_boards[i].favorites.contains(productId) &&
+  //         !checkedBoardsIds.contains(_boards[i].boardId)) {
+  //       removeSingleProduct(_boards[i].boardId!, productId);
+  //     } else if (!_boards[i].favorites.contains(productId) &&
+  //         checkedBoardsIds.contains(_boards[i].boardId)) {
+  //       addSingleProduct(_boards[i].boardId!, productId);
+  //     }
+  //   }
+  //   notifyListeners();
+  // }
 }

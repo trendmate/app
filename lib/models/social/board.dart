@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class Board {
-  final String boardId;
+  String? boardId;
   String title;
+  final String uid;
   final String image;
   final List<String> favorites;
   final int followers;
@@ -13,27 +14,29 @@ class Board {
   final List<String> tags;
 
   Board({
-    required this.boardId,
+    this.boardId,
     required this.title,
     required this.image,
     required this.favorites,
+    required this.uid,
     this.followers = 0,
     this.description = "",
     this.posts = const [],
     this.tags = const [],
   });
 
-  Board copyWith({
-    String? boardId,
-    String? title,
-    String? image,
-    List<String>? favorites,
-    int? followers,
-    String? description,
-    List<String>? posts,
-    List<String>? tags,
-  }) {
+  Board copyWith(
+      {String? boardId,
+      String? title,
+      String? image,
+      List<String>? favorites,
+      int? followers,
+      String? description,
+      List<String>? posts,
+      List<String>? tags,
+      String? uid}) {
     return Board(
+      uid: uid ?? this.uid,
       boardId: boardId ?? this.boardId,
       title: title ?? this.title,
       image: image ?? this.image,
@@ -54,17 +57,18 @@ class Board {
       'posts': posts,
       'favorites': favorites,
       'tags': tags,
+      'uid': uid,
     };
   }
 
   factory Board.fromMap(Map<String, dynamic> map) {
     return Board(
       boardId: map['boardId'],
+      uid: map['uid'],
       title: map['title'],
       image: map['image'],
       description: map['description'],
       posts: List<String>.from(map['posts']),
-      // favorites: Map<String, Product>.from(map['favorites']),
       favorites: List<String>.from(map['favorites']),
       tags: List<String>.from(map['tags']),
     );

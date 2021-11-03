@@ -40,15 +40,7 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             lazy: false,
-            create: (ctx) => ProductsProvider(),
-          ),
-          ChangeNotifierProvider(
-            lazy: false,
             create: (ctx) => FiltersProvider(),
-          ),
-          ChangeNotifierProvider(
-            lazy: false,
-            create: (ctx) => BoardsProvider(),
           ),
           ChangeNotifierProvider(
             lazy: false,
@@ -58,6 +50,16 @@ class MyApp extends StatelessWidget {
             lazy: false,
             create: (ctx) => SocialProvider(null),
             update: (context, value, previous) => SocialProvider(value),
+          ),
+          ChangeNotifierProxyProvider<UserProvider, BoardsProvider>(
+            lazy: false,
+            create: (ctx) => BoardsProvider(null),
+            update: (context, value, previous) => BoardsProvider(value),
+          ),
+          ChangeNotifierProxyProvider<UserProvider, ProductsProvider>(
+            lazy: false,
+            create: (ctx) => ProductsProvider(null),
+            update: (context, value, previous) => ProductsProvider(value),
           ),
         ],
         child: Builder(builder: (context) {

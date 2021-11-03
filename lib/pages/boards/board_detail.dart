@@ -88,7 +88,7 @@ class _BoardDetailState extends State<BoardDetail> {
                                       onPressed: () {
                                         boardsProvider.removeSingleProduct(
                                             boardsProvider
-                                                .boardsList[BoardIndex].boardId,
+                                                .boardsList[BoardIndex].boardId!,
                                             product.productId);
                                       },
                                     ),
