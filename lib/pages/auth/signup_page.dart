@@ -100,8 +100,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             // },
                             onPressed: () {
                               _submitData();
-                              Navigator.of(context)
-                                  .pushNamed(ProductsPage.routeName);
                             },
                             child: Text(
                               'SignUp',
