@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:trendmate/models/media.dart';
 import 'package:trendmate/models/social/post.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 

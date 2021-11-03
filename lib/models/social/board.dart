@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:trendmate/models/ecom/product.dart';
 
 class Board {
   final String boardId;

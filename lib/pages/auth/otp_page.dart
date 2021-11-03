@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
-import 'package:trendmate/widgets/background.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({
@@ -11,14 +10,12 @@ class OtpPage extends StatefulWidget {
     required this.verId,
     this.name,
     this.phone,
-    this.uid,
   }) : super(key: key);
   static const routeName = '/otp-page';
 
   final String verId;
   final String? name;
   final String? phone;
-  final String? uid;
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -112,12 +109,12 @@ class _OtpPageState extends State<OtpPage> {
                       verificationId: widget.verId, smsCode: text);
                   FirebaseAuth.instance.signInWithCredential(credential).then(
                       (value) => widget.name == null
-                          ? Navigator.of(context)
-                              .pushReplacementNamed(TabsPage.routeName)
+                          ? Navigator.of(context).pushNamed(TabsPage.routeName)
                           : FirebaseMethods.instance
-                              .signUp(widget.name!, widget.phone!, widget.uid!)
+                              .signUp(
+                                  widget.name!, widget.phone!, value.user!.uid)
                               .then((value) => Navigator.of(context)
-                                  .pushReplacementNamed(TabsPage.routeName)));
+                                  .pushNamed(TabsPage.routeName)));
                 },
                 style: ButtonStyle(
                     // shape: RoundedRectangleBorder(

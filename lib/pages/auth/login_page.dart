@@ -6,7 +6,6 @@ import 'package:trendmate/pages/auth/signup_page.dart';
 import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 import 'package:trendmate/utils/utils.dart';
-import 'package:trendmate/widgets/background.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

@@ -75,6 +75,7 @@ class ProductsProvider with ChangeNotifier {
     _favoritesList.remove(productId);
     notifyListeners();
   }
+
   void addFavorites(String productId) {
     _favoritesSet.add(productId);
     _favoritesList.add(productId);

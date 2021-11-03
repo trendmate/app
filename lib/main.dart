@@ -35,19 +35,27 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
+            lazy: false,
             create: (ctx) => UserProvider(),
           ),
           ChangeNotifierProvider(
+            lazy: false,
             create: (ctx) => ProductsProvider(),
           ),
           ChangeNotifierProvider(
+            lazy: false,
             create: (ctx) => FiltersProvider(),
           ),
           ChangeNotifierProvider(
+            lazy: false,
             create: (ctx) => BoardsProvider(),
           ),
-          ChangeNotifierProvider(create: (ctx) => PostsProvider()),
+          ChangeNotifierProvider(
+            lazy: false,
+            create: (ctx) => PostsProvider(),
+          ),
           ChangeNotifierProxyProvider<UserProvider, SocialProvider>(
+            lazy: false,
             create: (ctx) => SocialProvider(),
             update: (context, value, previous) => SocialProvider(),
           ),
@@ -60,11 +68,11 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blueGrey,
               fontFamily: 'Poppins',
             ),
-            // home: Consumer<UserProvider>(
-            //   builder: (BuildContext context, value, Widget? child) =>
-            //       value.user == null ? LoginPage() : TabsPage(),
-            // ),
-            home: TabsPage(),
+            home: Consumer<UserProvider>(
+              builder: (BuildContext context, value, Widget? child) =>
+                  value.user == null ? LoginPage() : TabsPage(),
+            ),
+            // home: TabsPage(),
             // home: SignUpPage(),
             routes: {
               SignUpPage.routeName: (ctx) => SignUpPage(),

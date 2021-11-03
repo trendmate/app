@@ -2,11 +2,7 @@ import 'package:trendmate/providers/products_provider.dart';
 import 'package:trendmate/providers/boards_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trendmate/widgets/product_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:trendmate/pages/favourites/favourites_page.dart';
-import 'package:trendmate/pages/boards/boards_page.dart';
-import 'package:trendmate/widgets/background.dart';
 import 'package:trendmate/pages/products/filters_screen.dart';
 
 class ProductsPage extends StatefulWidget {

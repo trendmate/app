@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:trendmate/models/ecom/product.dart';
 import 'package:trendmate/models/social/board.dart';
-import 'package:trendmate/services/firebase_methods.dart';
 
 class BoardsProvider with ChangeNotifier {
   // Board id VS Board
