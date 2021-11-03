@@ -6,7 +6,6 @@ import 'package:trendmate/pages/auth/signup_page.dart';
 import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 import 'package:trendmate/utils/utils.dart';
-import 'package:trendmate/widgets/background.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -64,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               bottom: MediaQuery.of(context).viewInsets.bottom + 10,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextField(
                   decoration: InputDecoration(labelText: 'Enter Phone No.'),
@@ -78,26 +77,35 @@ class _LoginPageState extends State<LoginPage> {
                   cursorColor: Colors.blueAccent,
                   onSubmitted: (_) => _submitData(),
                 ),
-                ElevatedButton(
-                  onPressed: _submitData,
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                SizedBox(
+                  height: 50,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _submitData,
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(SignUpPage.routeName);
-                  },
-                  child: Text(
-                    'New User?',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(SignUpPage.routeName);
+                    },
+                    child: Text(
+                      'New User?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),

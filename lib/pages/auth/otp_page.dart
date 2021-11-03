@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
-import 'package:trendmate/widgets/background.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({

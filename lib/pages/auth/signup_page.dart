@@ -86,35 +86,44 @@ class _SignUpPageState extends State<SignUpPage> {
                         onSubmitted: (_) => _submitData(),
                         // onChanged: (val) => amountInput = val,
                       ),
-                      ElevatedButton(
-                          // onPressed: () {
-                          //   // send values to user_transactions.dart
-                          //   // print(_nameController.text);
-                          //   // print(_phoneController.text);
-                          //   _submitData;
-                          // },
-                          onPressed: () {
-                            _submitData();
-                            Navigator.of(context)
-                                .pushNamed(ProductsPage.routeName);
-                          },
+                      SizedBox(
+                        height: 50,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            // onPressed: () {
+                            //   // send values to user_transactions.dart
+                            //   // print(_nameController.text);
+                            //   // print(_phoneController.text);
+                            //   _submitData;
+                            // },
+                            onPressed: () {
+                              _submitData();
+                              Navigator.of(context)
+                                  .pushNamed(ProductsPage.routeName);
+                            },
+                            child: Text(
+                              'SignUp',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.of(context)
+                              .pushReplacementNamed(LoginPage.routeName),
                           child: Text(
-                            'Submit',
+                            "Already registered?",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
                             ),
-                          )),
-                      ElevatedButton(
-                        onPressed: () => Navigator.of(context)
-                            .pushReplacementNamed(LoginPage.routeName),
-                        child: Text(
-                          "Already registered?",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
