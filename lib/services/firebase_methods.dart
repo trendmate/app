@@ -33,7 +33,8 @@ class FirebaseMethods {
   }
 
   Future<void> signUp(String name, String phone, String uid) {
-    final user = User.demo().copyWith(name: name, phone: phone, uid: uid);
+    final user =
+        User.demo().copyWith(name: name.toLowerCase(), phone: phone, uid: uid);
 
     return _firestore
         .collection(StringConstants.USERS)
@@ -66,7 +67,7 @@ class FirebaseMethods {
     //     (await _firestore.collection(StringConstants.BOARDS).doc(boardId).get())
     //         .data()!);
 
-    // for (String productId in board.products) {
+    // for (String productId in board.) {
     //   final prod = Product.fromMap((await _firestore
     //           .collection(StringConstants.PRODUCTS)
     //           .doc(productId)
@@ -76,6 +77,12 @@ class FirebaseMethods {
     // }
 
     return res;
+  }
+
+  Future<void> follow(User user) {
+    return _firestore.collection(StringConstants.USERS).doc(user.uid).update({
+      'friends': FieldValue.arrayUnion([user.uid])
+    });
   }
 
   Future<List<Product>> getProducts() async {
@@ -111,28 +118,48 @@ class FirebaseMethods {
     });
   }
 
+  Future<String> addBoard(String title) async {
+    final doc = _firestore.collection(StringConstants.BOARDS).doc();
+    await doc.set({
+      'title': title,
+      'favorites': [],
+    });
+
+    return doc.id;
+  }
+
+  Future<void> deleteBoard(String boardId) {
+    return _firestore.collection(StringConstants.BOARDS).doc(boardId).delete();
+  }
+
+  Future<void> editBoard(String boardId, String title) {
+    return _firestore.collection(StringConstants.BOARDS).doc(boardId).update({
+      'title': title,
+    });
+  }
+
   Future<void> removeProductFromBoard(String productId, String boardId) {
     return _firestore.collection(StringConstants.BOARDS).doc(boardId).update({
       'favorites': FieldValue.arrayRemove([productId])
     });
   }
 
-  Future<void> removeFavorites(String productId) {
+  Future<void> removeFavorites(String productId, String uid) {
     return _firestore
-        .collection(StringConstants.BOARDS)
-        .doc("favourites")
-        .update({
-      'favorites': FieldValue.arrayRemove([productId])
-    });
+        .collection(StringConstants.USERS)
+        .doc(uid)
+        .collection(StringConstants.FAVOURITES)
+        .doc(productId)
+        .delete();
   }
 
-  Future<void> addFavorites(String productId) {
+  Future<void> addFavorites(String productId, String uid) {
     return _firestore
-        .collection(StringConstants.BOARDS)
-        .doc("favourites")
-        .update({
-      'favorites': FieldValue.arrayRemove([productId])
-    });
+        .collection(StringConstants.USERS)
+        .doc(uid)
+        .collection(StringConstants.FAVOURITES)
+        .doc(productId)
+        .set({'productId': productId});
   }
 
   Future<List<User>> socialSearchPeople(String query) async {

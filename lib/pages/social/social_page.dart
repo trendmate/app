@@ -19,8 +19,12 @@ class SocialPage extends StatelessWidget {
             )
           : GridView.count(
               crossAxisCount: 2,
-              children:
-                  value.prods.map((e) => SocialProduct(product: e)).toList(),
+              children: value.prods
+                  .map((e) => SocialProduct(
+                        product: e,
+                        provider: value,
+                      ))
+                  .toList(),
             ),
     );
   }
@@ -30,13 +34,15 @@ class SocialProduct extends StatelessWidget {
   const SocialProduct({
     Key? key,
     required this.product,
+    required this.provider,
   }) : super(key: key);
 
   final Product product;
+  final SocialProvider provider;
 
   void _share() async {
     await Share.share('check out this product ${product.url}');
-    SocialProvider.instance.incrementShare(product);
+    provider.incrementShare(product);
   }
 
   @override

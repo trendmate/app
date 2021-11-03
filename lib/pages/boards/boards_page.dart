@@ -19,8 +19,8 @@ class BoardsPage extends StatelessWidget {
         itemCount: boardsProvider.boardsList.length,
         itemBuilder: (ctx, index) => GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(BoardDetail.routeName,
-                arguments: index);
+            Navigator.of(context)
+                .pushNamed(BoardDetail.routeName, arguments: index);
           },
           child: Card(
             child: ListTile(
