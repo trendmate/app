@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trendmate/pages/boards/board_detail.dart';
+import 'package:trendmate/pages/profile/profile_page.dart';
 import 'package:trendmate/providers/social_provider.dart';
 
 class SocialSearch extends StatefulWidget {
@@ -46,25 +48,35 @@ class _SocialSearchState extends State<SocialSearch> {
                   child: ListView(
                     children: provider.searchedUsers
                         .map((e) => Card(
-                                child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                  child: Column(
-                                children: [
-                                  Text(e.name),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        provider.followUser(e);
-                                      },
-                                      child: Text(
-                                          provider.user!.friends.contains(e.uid)
-                                              ? "Unfollow"
-                                              : "Follow"))
-                                ],
-                              )),
+                                child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (ctx) => ProfilePage(
+                                              user: e,
+                                            )));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                    child: Column(
+                                  children: [
+                                    Text(e.name),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          provider.followUser(e);
+                                        },
+                                        child: Text(provider.user!.friends
+                                                .contains(e.uid)
+                                            ? "Unfollow"
+                                            : "Follow"))
+                                  ],
+                                )),
+                              ),
                             )))
                         .toList(),
                     scrollDirection: Axis.horizontal,
@@ -74,29 +86,39 @@ class _SocialSearchState extends State<SocialSearch> {
                 Expanded(
                   child: ListView(
                     children: provider.searchingBoards
-                        .map((e) => Card(
-                                child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Text(e.title),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          provider.followBoard(e);
-                                        },
-                                        child: Text(provider
-                                                .user!.followed_boards
-                                                .contains(e.boardId)
-                                            ? "Unfollow"
-                                            : "Follow"))
-                                  ],
+                        .map((e) => GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (ctx) => BoardDetail(
+                                              toDisplay: e,
+                                            )));
+                              },
+                              child: Card(
+                                  child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Text(e.title),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            provider.followBoard(e);
+                                          },
+                                          child: Text(provider
+                                                  .user!.followed_boards
+                                                  .contains(e.boardId)
+                                              ? "Unfollow"
+                                              : "Follow"))
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )))
+                              )),
+                            ))
                         .toList(),
                     scrollDirection: Axis.horizontal,
                   ),

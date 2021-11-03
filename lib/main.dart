@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
               FavouritesPage.routeName: (ctx) => FavouritesPage(),
               SocialPage.routeName: (ctx) => SocialPage(),
               PostDetail.routeName: (ctx) => PostDetail(),
-              ProfilePage.routeName: (ctx) => ProfilePage(),
+              // ProfilePage.routeName: (ctx) => ProfilePage(),
             },
           );
         }));

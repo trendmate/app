@@ -3,21 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:trendmate/models/social/board.dart';
+import 'package:trendmate/models/user.dart';
 
 import 'package:trendmate/providers/user_provider.dart';
 import 'package:trendmate/providers/boards_provider.dart';
+import 'package:trendmate/services/firebase_methods.dart';
 
 class ProfilePage extends StatefulWidget {
   static const routeName = "profile-page";
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({
+    Key? key,
+    this.user,
+  }) : super(key: key);
+
+  final User? user;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int _index = 0;
-
   final nameController = TextEditingController();
 
   void editName() {
@@ -72,8 +78,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
         builder: (BuildContext context, userProvider, Widget? child) {
-      String image = userProvider.user!.image;
-      String name = userProvider.user!.name;
+      String image =
+          widget.user == null ? userProvider.user!.image : widget.user!.image;
+      String name =
+          widget.user == null ? userProvider.user!.name : widget.user!.name;
 
       return Scaffold(
         body: Column(
@@ -106,7 +114,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       name,
                       style: TextStyle(fontSize: 20),
                     ),
-                    IconButton(onPressed: editName, icon: Icon(Icons.edit))
+                    if (widget.user == null ||
+                        UserProvider.instance.user!.uid
+                                .compareTo(widget.user!.uid) ==
+                            0)
+                      IconButton(onPressed: editName, icon: Icon(Icons.edit))
                   ]),
                 )
               ],
@@ -121,58 +133,87 @@ class _ProfilePageState extends State<ProfilePage> {
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20))),
               ),
-              Consumer<BoardsProvider>(builder:
-                  (BuildContext context, boardsprovider, Widget? child) {
-                return Center(
-                    child: boardsprovider.boardsList.isEmpty
-                        ? Text(
-                            "No boards created yet...",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          )
-                        : SizedBox(
-                            height: 200, // card height
-                            child: PageView.builder(
-                                itemCount: boardsprovider.boardsList.length,
-                                controller:
-                                    PageController(viewportFraction: 0.7),
-                                onPageChanged: (int index) =>
-                                    setState(() => _index = index),
-                                itemBuilder: (_, i) {
-                                  String image =
-                                      boardsprovider.boardsList[i].image;
-                                  String name =
-                                      boardsprovider.boardsList[i].title;
-
-                                  return Transform.scale(
-                                    scale: i == _index ? 1 : 0.9,
-                                    child: Card(
-                                      elevation: 6,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Column(
-                                        children: [
-                                          image == ''
-                                              ? Expanded(
-                                                  child: Image.network(
-                                                      "https://i.ebayimg.com/images/g/am8AAOSw4m9b~Bks/s-l400.jpg"),
-                                                )
-                                              : Expanded(
-                                                  child: Image.network(image)),
-                                          Text(
-                                            name,
-                                            style: TextStyle(fontSize: 20),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                })));
-              }),
+              if (widget.user == null)
+                Consumer<BoardsProvider>(builder:
+                    (BuildContext context, boardsprovider, Widget? child) {
+                  return BoardsDisplay(boardsList: boardsprovider.boardsList);
+                }),
+              if (widget.user != null)
+                FutureBuilder(
+                    future: FirebaseMethods.instance
+                        .getBaords(widget.user!.my_boards),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return BoardsDisplay(boardsList: []);
+                      } else {
+                        return BoardsDisplay(
+                            boardsList: snapshot.data as List<Board>);
+                      }
+                    })
             ])
           ],
         ),
       );
     });
+  }
+}
+
+class BoardsDisplay extends StatefulWidget {
+  const BoardsDisplay({
+    Key? key,
+    required this.boardsList,
+  }) : super(key: key);
+
+  final List<Board> boardsList;
+
+  @override
+  State<BoardsDisplay> createState() => _BoardsDisplayState();
+}
+
+class _BoardsDisplayState extends State<BoardsDisplay> {
+  int _index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: widget.boardsList.isEmpty
+            ? Text(
+                "No boards created yet...",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              )
+            : SizedBox(
+                height: 200, // card height
+                child: PageView.builder(
+                    itemCount: widget.boardsList.length,
+                    controller: PageController(viewportFraction: 0.7),
+                    onPageChanged: (int index) =>
+                        setState(() => _index = index),
+                    itemBuilder: (_, i) {
+                      String image = widget.boardsList[i].image;
+                      String name = widget.boardsList[i].title;
+
+                      return Transform.scale(
+                        scale: i == _index ? 1 : 0.9,
+                        child: Card(
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                            children: [
+                              image == ''
+                                  ? Expanded(
+                                      child: Image.network(
+                                          "https://i.ebayimg.com/images/g/am8AAOSw4m9b~Bks/s-l400.jpg"),
+                                    )
+                                  : Expanded(child: Image.network(image)),
+                              Text(
+                                name,
+                                style: TextStyle(fontSize: 20),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    })));
   }
 }

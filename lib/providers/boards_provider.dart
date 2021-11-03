@@ -16,6 +16,7 @@ class BoardsProvider with ChangeNotifier {
     if (provider == null) return;
     if (!initilised || (provider.user != user && provider.user != null)) {
       initilised = true;
+      user = provider.user;
       _boards = await FirebaseMethods.instance.getBoards();
       notifyListeners();
     }
@@ -72,8 +73,9 @@ class BoardsProvider with ChangeNotifier {
       image: "",
       favorites: [],
     );
-    String id = await FirebaseMethods.instance.addBoard(board);
+    String id = await FirebaseMethods.instance.addBoard(board, user!.uid);
     board.boardId = id;
+
     _boards.add(board);
     notifyListeners();
   }
