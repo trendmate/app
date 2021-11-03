@@ -144,6 +144,20 @@ class FirebaseMethods {
         .toList();
   }
 
+  Future<List<Board>> getBaords(List<String> boardIds) async {
+    List<Board> res = [];
+    for (int i = 0; i < boardIds.length; i++) {
+      res.addAll((await _firestore
+              .collection(StringConstants.BOARDS)
+              .where("boardId", isEqualTo: boardIds[i])
+              .get())
+          .docs
+          .map((e) => Board.fromMap(e.data())));
+    }
+
+    return res;
+  }
+
   Future<List<String>> getMyfavorites() {
     return _firestore
         .collection(StringConstants.USERS)
@@ -177,9 +191,12 @@ class FirebaseMethods {
     });
   }
 
-  Future<String> addBoard(Board board) async {
+  Future<String> addBoard(Board board, String uid) async {
     final doc = _firestore.collection(StringConstants.BOARDS).doc();
     board.boardId = doc.id;
+    await _firestore.collection(StringConstants.USERS).doc(uid).update({
+      'my_boards': FieldValue.arrayUnion([doc.id])
+    });
     await doc.set(board.toMap());
 
     return doc.id;
