@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trendmate/providers/social_provider.dart';
+import 'package:trendmate/services/firebase_methods.dart';
 
 class SocialSearch extends StatefulWidget {
   SocialSearch({Key? key}) : super(key: key);
@@ -24,13 +25,13 @@ class _SocialSearchState extends State<SocialSearch> {
             )
           ])),
       body: SafeArea(
-        child: Column(
+          child: Consumer<SocialProvider>(
+        builder: (context, provider, child) => Column(
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(32, 8, 8, 8),
               child: TextFormField(
-                onChanged: (value) =>
-                    SocialProvider.instance.setSearchText(value),
+                onChanged: (value) => provider.setSearchText(value),
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                     suffixIcon: Icon(
@@ -48,27 +49,45 @@ class _SocialSearchState extends State<SocialSearch> {
             ),
             Text("People"),
             Expanded(
-                child: Consumer<SocialProvider>(
-              builder: (context, value, child) => ListView(
-                children: value.searchedUsers
-                    .map((e) => CachedNetworkImage(imageUrl: e.image))
+              child: ListView(
+                children: provider.searchedUsers
+                    .map((e) => Card(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                              child: Column(
+                            children: [
+                              Text(e.name),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    provider.follow(e);
+                                  },
+                                  child: Text(
+                                      provider.user!.friends.contains(e.uid)
+                                          ? "Unfollow"
+                                          : "Follow"))
+                            ],
+                          )),
+                        )))
                     .toList(),
                 scrollDirection: Axis.horizontal,
               ),
-            )),
+            ),
             Text("Boards"),
             Expanded(
-                child: Consumer<SocialProvider>(
-              builder: (context, value, child) => ListView(
-                children: value.searchingBoards
+              child: ListView(
+                children: provider.searchingBoards
                     .map((e) => CachedNetworkImage(imageUrl: e.image))
                     .toList(),
                 scrollDirection: Axis.horizontal,
               ),
-            )),
+            ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

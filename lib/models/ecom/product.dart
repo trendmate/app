@@ -112,8 +112,6 @@ class Product {
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
-    print("Product: " + map['productId']);
-
     return Product(
       productId: map['productId'],
       brand: map['brand'],

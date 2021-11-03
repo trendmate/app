@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:trendmate/models/social/board.dart';
+import 'package:trendmate/providers/user_provider.dart';
+import 'package:trendmate/services/firebase_methods.dart';
 
 class BoardsProvider with ChangeNotifier {
   // Board id VS Board
@@ -46,8 +48,14 @@ class BoardsProvider with ChangeNotifier {
     return _boards.firstWhere((element) => element.boardId == Key);
   }
 
-  void createNewBoard(String name) {
-    _boards.add(Board(boardId: name, title: name, image: "", favorites: []));
+  Future<void> createNewBoard(String name) async {
+    String id = await FirebaseMethods.instance.addBoard(name);
+    _boards.add(Board(
+      boardId: id,
+      title: name,
+      image: "",
+      favorites: [],
+    ));
     notifyListeners();
   }
 
@@ -60,7 +68,8 @@ class BoardsProvider with ChangeNotifier {
     }
   }
 
-  void deleteBoard(String boardId) {
+  Future<void> deleteBoard(String boardId) async {
+    await FirebaseMethods.instance.deleteBoard(boardId);
     int index = _boards.indexWhere((element) => element.boardId == boardId);
     List<String> productIds = _boards[index].favorites;
     for (int i = 0; i < productIds.length; i++) {
@@ -72,13 +81,16 @@ class BoardsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void editBoardName(String boardId, String boardTitle) {
+  Future<void> editBoardName(String boardId, String boardTitle) async {
+    FirebaseMethods.instance.editBoard(boardId, boardTitle);
     int index = _boards.indexWhere((element) => element.boardId == boardId);
     _boards[index].title = boardTitle;
     notifyListeners();
   }
 
-  void removeSingleProduct(String boardId, String productId) {
+  Future<void> removeSingleProduct(String boardId, String productId) async {
+    await FirebaseMethods.instance
+        .removeFavorites(productId, UserProvider.instance.user!.uid);
     int index = _boards.indexWhere((element) => element.boardId == boardId);
     _boards[index].favorites.remove(productId);
     if (_productsToBoards.containsKey(productId)) {
@@ -87,7 +99,9 @@ class BoardsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addSingleProduct(String boardId, String productId) {
+  Future<void> addSingleProduct(String boardId, String productId) async {
+    print(boardId);
+    await FirebaseMethods.instance.addProductToBoard(productId, boardId);
     int index = _boards.indexWhere((element) => element.boardId == boardId);
     _boards[index].favorites.add(productId);
     if (_productsToBoards.containsKey(productId)) {
@@ -98,7 +112,10 @@ class BoardsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addProduct(String productId, List<String> checkedBoardsIds) {
+  Future<void> addProduct(
+      String productId, List<String> checkedBoardsIds) async {
+    await FirebaseMethods.instance
+        .addFavorites(productId, UserProvider.instance.user!.uid);
     for (int i = 0; i < _boards.length; i++) {
       if (_boards[i].favorites.contains(productId) &&
           !checkedBoardsIds.contains(_boards[i].boardId)) {

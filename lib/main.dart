@@ -56,8 +56,8 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProxyProvider<UserProvider, SocialProvider>(
             lazy: false,
-            create: (ctx) => SocialProvider(),
-            update: (context, value, previous) => SocialProvider(),
+            create: (ctx) => SocialProvider(null),
+            update: (context, value, previous) => SocialProvider(value),
           ),
         ],
         child: Builder(builder: (context) {

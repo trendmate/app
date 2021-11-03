@@ -57,8 +57,9 @@ class _ProductsPageState extends State<ProductsPage> {
                               return TextButton(
                                   onPressed: () {
                                     boardsprovider
-                                        .createNewBoard(titleController.text);
-                                    Navigator.of(context).pop();
+                                        .createNewBoard(titleController.text)
+                                        .then((value) =>
+                                            Navigator.of(context).pop());
                                   },
                                   child: Text("Create"));
                             },
@@ -122,9 +123,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                         .boardsOfProduct(productId)
                                         .contains(boardId),
                                     onChanged: (bool? value) {
-                                      print("tap");
                                       if (value == true) {
-                                        print("true");
                                         boardsprovider.addSingleProduct(
                                             boardId, productId);
                                       } else

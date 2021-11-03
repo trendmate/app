@@ -7,13 +7,10 @@ import 'package:trendmate/providers/user_provider.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 
 class SocialProvider with ChangeNotifier {
-  static final SocialProvider instance = SocialProvider._internal();
-  SocialProvider._internal() {
-    _init();
+  SocialProvider(UserProvider? provider) {
+    _init(provider);
   }
-  factory SocialProvider() {
-    return instance;
-  }
+
   bool initilised = false;
 
   List<Product> prods = [];
@@ -21,8 +18,11 @@ class SocialProvider with ChangeNotifier {
   List<Board> searchingBoards = [];
   List<User> searchedUsers = [];
 
-  Future _init() async {
-    if (!initilised) {
+  User? user;
+
+  Future _init(UserProvider? provider) async {
+    if (provider == null) return;
+    if (!initilised || provider.user != user) {
       initilised = true;
 
       if (Config.UItest) {
@@ -34,13 +34,13 @@ class SocialProvider with ChangeNotifier {
 
       if (UserProvider.instance.user == null) return;
 
-      final user = UserProvider.instance.user!;
-      for (String frnd in user.friends) {
+      user = UserProvider.instance.user!;
+      for (String frnd in user!.friends) {
         if (frnd.isNotEmpty)
           prods
               .addAll(await FirebaseMethods.instance.getLatestFavourites(frnd));
       }
-      for (String boardId in user.followed_boards) {
+      for (String boardId in user!.followed_boards) {
         if (boardId.isNotEmpty)
           prods.addAll(
               await FirebaseMethods.instance.getPrductsOfBoard(boardId));
@@ -59,6 +59,13 @@ class SocialProvider with ChangeNotifier {
   Future<void> setSearchText(String query) async {
     searchingBoards = await FirebaseMethods.instance.socialSearchBoards(query);
     searchedUsers = await FirebaseMethods.instance.socialSearchPeople(query);
+
+    notifyListeners();
+  }
+
+  Future<void> follow(User _user) async {
+    await FirebaseMethods.instance.follow(_user);
+    user!.friends.add(_user.uid);
 
     notifyListeners();
   }
