@@ -54,16 +54,47 @@ class FirebaseMethods {
     final user = User.fromMap(
         (await _firestore.collection('users').doc(uid).get()).data()!);
 
+    final prodIds = (await _firestore
+            .collection('users')
+            .doc(uid)
+            .collection(StringConstants.FAVORITES)
+            .get())
+        .docs
+        .map((e) => e['productId'])
+        .toList();
+
     for (String board in user.my_boards) {
       result.addAll(await getPrductsOfBoard(board));
+    }
+
+    for (String prod in prodIds) {
+      result.add(await getProduct(prod));
     }
 
     return result;
   }
 
   Future<List<Board>> getBoards() async {
-    return _firestore.collection(StringConstants.BOARDS).get().then(
-        (value) => value.docs.map((e) => Board.fromMap(e.data())).toList());
+    return _firestore
+        .collection(StringConstants.BOARDS)
+        .get()
+        .then((value) => value.docs
+            .map((e) => Board.fromMap(e.data()
+              ..addAll({
+                'productId': e.id,
+              })))
+            .toList());
+  }
+
+  Future<Product> getProduct(String prod) async {
+    return _firestore
+        .collection(StringConstants.PRODUCTS)
+        .doc(prod)
+        .get()
+        .then((value) => Product.fromMap(value.data()!
+          ..addAll({
+            'productId': prod,
+          })));
   }
 
   Future<List<Product>> getPrductsOfBoard(String boardId) async {
@@ -89,9 +120,11 @@ class FirebaseMethods {
     return res;
   }
 
-  Future<void> followUser(User user) {
-    return _firestore.collection(StringConstants.USERS).doc(user.uid).update({
-      'friends': FieldValue.arrayUnion([user.uid])
+  Future<void> followUser(User _user) {
+    print(_user.uid);
+
+    return _firestore.collection(StringConstants.USERS).doc(_user.uid).update({
+      'friends': [_user.uid]
     });
   }
 

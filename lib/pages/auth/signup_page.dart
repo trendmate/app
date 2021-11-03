@@ -3,7 +3,6 @@ import 'package:trendmate/pages/auth/login_page.dart';
 import 'package:trendmate/pages/auth/otp_page.dart';
 import 'package:trendmate/services/firebase_methods.dart';
 import 'package:trendmate/utils/utils.dart';
-import 'package:trendmate/pages/products/products_page.dart';
 import 'package:trendmate/widgets/background.dart';
 
 class SignUpPage extends StatefulWidget {
