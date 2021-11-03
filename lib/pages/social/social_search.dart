@@ -14,6 +14,15 @@ class _SocialSearchState extends State<SocialSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 0,
+          title: Row(children: [
+            Text(
+              "",
+              style: TextStyle(color: Colors.black, fontSize: 21),
+            )
+          ])),
       body: SafeArea(
         child: Column(
           children: [
