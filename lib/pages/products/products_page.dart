@@ -1,3 +1,4 @@
+import 'package:trendmate/pages/favourites/favourites_page.dart';
 import 'package:trendmate/providers/products_provider.dart';
 import 'package:trendmate/providers/boards_provider.dart';
 import 'package:flutter/material.dart';
@@ -160,6 +161,15 @@ class _ProductsPageState extends State<ProductsPage> {
           style: TextStyle(color: Colors.black, fontSize: 21),
         ),
         actions: [
+          IconButton(
+            padding: EdgeInsets.all(16),
+            icon: const Icon(Icons.favorite_border_rounded),
+            onPressed: () {
+              Navigator.of(context).pushNamed(FavouritesPage.routeName);
+            },
+            color: Colors.black,
+            iconSize: 25,
+          ),
           IconButton(
             padding: EdgeInsets.all(16),
             icon: const Icon(Icons.filter_list_outlined),
