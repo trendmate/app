@@ -1,3 +1,4 @@
+import 'package:trendmate/pages/auth/login_page.dart';
 import 'package:trendmate/pages/favourites/favourites_page.dart';
 import 'package:trendmate/providers/products_provider.dart';
 import 'package:trendmate/providers/boards_provider.dart';
@@ -162,6 +163,11 @@ class _ProductsPageState extends State<ProductsPage> {
         ),
         actions: [
           IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(LoginPage.routeName);
+              },
+              icon: Icon(Icons.arrow_left)),
+          IconButton(
             padding: EdgeInsets.all(16),
             icon: const Icon(Icons.favorite_border_rounded),
             onPressed: () {
@@ -181,105 +187,110 @@ class _ProductsPageState extends State<ProductsPage> {
           )
         ],
       ),
-      body: Consumer<ProductsProvider>(
-        builder: (BuildContext context, productsProvider, Widget? child) {
-          return GridView.builder(
-            padding: const EdgeInsets.all(10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 5,
-                childAspectRatio: 0.5),
-            itemCount: productsProvider.products.length,
-            itemBuilder: (ctx, idx) {
-              return GestureDetector(
-                onTap: () async {
-                  final _url = productsProvider.products[idx].url;
-                  print(_url);
-                  await canLaunch(_url)
-                      ? await launch(_url)
-                      : throw 'Could not launch $_url';
-                },
-                // child: ProductWidget(idx),
-                child: Card(
-                  child: Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              //alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Image.network(
-                                productsProvider.products[idx].image,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(8),
-                            child: Text(productsProvider.products[idx].title),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 10, bottom: 10),
-                                child: Text(
-                                  "Rs. ${productsProvider.products[idx].price.toString()}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue[600]),
+      body: SafeArea(
+        child: Consumer<ProductsProvider>(
+          builder: (BuildContext context, productsProvider, Widget? child) {
+            return GridView.builder(
+              padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 5,
+                  childAspectRatio: 0.5),
+              itemCount: productsProvider.products.length,
+              itemBuilder: (ctx, idx) {
+                return GestureDetector(
+                  onTap: () async {
+                    final _url = productsProvider.products[idx].url;
+                    print(_url);
+                    await canLaunch(_url)
+                        ? await launch(_url)
+                        : throw 'Could not launch $_url';
+                  },
+                  // child: ProductWidget(idx),
+                  child: Card(
+                    child: Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                //alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Image.network(
+                                  productsProvider.products[idx].image,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(8),
+                              child: Text(productsProvider.products[idx].title),
+                            ),
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                      child: IconButton(
-                                    color: Colors.teal[400],
-                                    icon: Icon(Icons.library_add),
-                                    onPressed: () {
-                                      bottomModalSheet(productsProvider
-                                          .products[idx].productId);
-                                    },
-                                  )),
-                                  Container(
-                                    child: IconButton(
-                                        color: Colors.red,
-                                        icon: Icon(productsProvider.favoritesSet
-                                                .contains(productsProvider
-                                                    .products[idx].productId)
-                                            ? Icons.favorite
-                                            : Icons.favorite_border),
+                                    padding:
+                                        EdgeInsets.only(left: 10, bottom: 10),
+                                    child: Text(
+                                      "Rs. ${productsProvider.products[idx].price.toStringAsFixed(2)}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue[600]),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                        color: Colors.teal[400],
+                                        icon: Icon(Icons.library_add),
                                         onPressed: () {
-                                          if (productsProvider.favoritesSet
-                                              .contains(productsProvider
-                                                  .products[idx].productId)) {
-                                            productsProvider.removeFavorites(
-                                                productsProvider
-                                                    .products[idx].productId);
-                                          } else {
-                                            productsProvider.addFavorites(
-                                                productsProvider
-                                                    .products[idx].productId);
-                                          }
-                                        }),
+                                          bottomModalSheet(productsProvider
+                                              .products[idx].productId);
+                                        },
+                                      ),
+                                      IconButton(
+                                          color: Colors.red,
+                                          icon: Icon(productsProvider
+                                                  .favoritesSet
+                                                  .contains(productsProvider
+                                                      .products[idx].productId)
+                                              ? Icons.favorite
+                                              : Icons.favorite_border),
+                                          onPressed: () {
+                                            if (productsProvider.favoritesSet
+                                                .contains(productsProvider
+                                                    .products[idx].productId)) {
+                                              productsProvider.removeFavorites(
+                                                  productsProvider
+                                                      .products[idx].productId);
+                                            } else {
+                                              productsProvider.addFavorites(
+                                                  productsProvider
+                                                      .products[idx].productId);
+                                            }
+                                          }),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          )
-                        ]),
+                            ),
+                          ]),
+                    ),
                   ),
-                ),
-              );
-            },
-          );
-        },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
