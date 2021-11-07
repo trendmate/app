@@ -147,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     future: FirebaseMethods.instance
                         .getBaords(widget.user!.my_boards),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
+                      if (!snapshot.hasData) {
                         return BoardsDisplay(boardsList: []);
                       } else {
                         return BoardsDisplay(
