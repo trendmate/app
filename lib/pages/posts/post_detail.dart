@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +63,13 @@ class PostDetail extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
-                        child: Image.network(i.url),
+                        // child: Image.network(i.url),
+                        child: CachedNetworkImage(
+                          imageUrl: i.url,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Text(""),
+                        ),
                       );
                     } else {
                       return Container(
@@ -106,6 +113,7 @@ class PostDetail extends StatelessWidget {
             ),
             Text(
               "Tags: ",
+              // "Tags: " + loadedPost.tags.length.toString(),
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -115,12 +123,13 @@ class PostDetail extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: loadedPost.tags.length,
                   itemBuilder: (ctx, i) => Card(
-                      color: Colors.blue,
-                      child: Text(loadedPost.tags[i],
-                          style: TextStyle(color: Colors.white)))),
+                        color: Colors.blue,
+                        child: Text(loadedPost.tags[i],
+                            style: TextStyle(color: Colors.white)))),
             ),
             Text(
               "Products: ",
+              // "Products: " + loadedPost.products.length.toString(),
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(
