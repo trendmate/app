@@ -77,6 +77,15 @@ class _LoginPageState extends State<LoginPage> {
                   cursorColor: Colors.blueAccent,
                   onSubmitted: (_) => _submitData(),
                 ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // Container(
+                //   child: Image.asset(
+                //     'assets/images/TrendmateLogo.png',
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
                 SizedBox(
                   height: 50,
                 ),
@@ -101,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                           .pushReplacementNamed(SignUpPage.routeName);
                     },
                     child: Text(
-                      'New User?',
+                      'Sign Up',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

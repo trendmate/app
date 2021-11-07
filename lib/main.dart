@@ -75,8 +75,7 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context, value, Widget? child) =>
                   value.user == null ? LoginPage() : TabsPage(),
             ),
-            // home: TabsPage(),
-            // home: SignUpPage(),
+            
             routes: {
               SignUpPage.routeName: (ctx) => SignUpPage(),
               LoginPage.routeName: (ctx) => LoginPage(),
