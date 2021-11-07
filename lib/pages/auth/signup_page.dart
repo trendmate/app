@@ -85,8 +85,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         onSubmitted: (_) => _submitData(),
                         // onChanged: (val) => amountInput = val,
                       ),
-                      SizedBox(
-                        height: 50,
+                      Center(
+                        child: Container(
+                          height: 200,
+                          margin: EdgeInsets.only(bottom: 40, top: 40),
+                          child: Image.asset(
+                            'assets/images/clothes-rack.png',
+                          ),
+                        ),
                       ),
                       SizedBox(
                         width: double.infinity,

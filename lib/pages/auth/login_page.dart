@@ -48,76 +48,92 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.blueGrey,
-            elevation: 0,
-            title: Text(
-              "Login",
-              style: TextStyle(
-                color: Colors.black87,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            )),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(
-              top: 10,
-              left: 10,
-              right: 10,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+          backgroundColor: Colors.blueGrey,
+          elevation: 0,
+          title: Text(
+            "Login",
+            style: TextStyle(
+              color: Colors.black87,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TextField(
-                  decoration: InputDecoration(labelText: 'Enter Phone No.'),
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  style: TextStyle(
-                    fontFamily: 'Poppins-Regular',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  cursorColor: Colors.blueAccent,
-                  onSubmitted: (_) => _submitData(),
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _submitData,
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(SignUpPage.routeName);
-                    },
-                    child: Text(
-                      'New User?',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          )),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
           ),
-        ));
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Enter Phone No.'),
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                style: TextStyle(
+                  fontFamily: 'Poppins-Regular',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                cursorColor: Colors.blueAccent,
+                onSubmitted: (_) => _submitData(),
+              ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Container(
+              //   child: Image.asset(
+              //     'assets/images/TrendmateLogo.png',
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
+
+              Container(
+                height: 200,
+                margin: EdgeInsets.only(bottom: 40, top: 40),
+                child: Image.asset(
+                  'assets/images/clothes-rack.png',
+                ),
+              ),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _submitData,
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(SignUpPage.routeName);
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

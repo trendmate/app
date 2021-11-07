@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:trendmate/models/social/board.dart';
 import 'package:trendmate/models/user.dart';
+import 'package:trendmate/pages/auth/login_page.dart';
 
 import 'package:trendmate/providers/user_provider.dart';
 import 'package:trendmate/providers/boards_provider.dart';
@@ -74,6 +75,8 @@ class _ProfilePageState extends State<ProfilePage> {
         });
   }
 
+  void out() {}
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
@@ -90,40 +93,50 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: Colors.white12,
-                        border: Border.all(color: Colors.grey[500]!, width: 1),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: CachedNetworkImage(
-                      imageUrl: image,
-                      placeholder: (context, url) =>
-                          new CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => new Icon(
-                        Icons.person_outline_rounded,
-                        color: Colors.grey[850],
-                        size: 120,
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: Colors.white12,
+                          border:
+                              Border.all(color: Colors.grey[500]!, width: 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: CachedNetworkImage(
+                        imageUrl: image,
+                        placeholder: (context, url) =>
+                            new CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => new Icon(
+                          Icons.person_outline_rounded,
+                          color: Colors.grey[850],
+                          size: 120,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(children: [
-                      Text(
-                        name,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      if (widget.user == null ||
-                          UserProvider.instance.user!.uid
-                                  .compareTo(widget.user!.uid) ==
-                              0)
-                        IconButton(onPressed: editName, icon: Icon(Icons.edit))
-                    ]),
-                  )
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(children: [
+                        Text(
+                          name,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        if (widget.user == null ||
+                            UserProvider.instance.user!.uid
+                                    .compareTo(widget.user!.uid) ==
+                                0)
+                          IconButton(
+                              onPressed: editName, icon: Icon(Icons.edit)),
+                        ElevatedButton(
+                            onPressed: () {
+                              out();
+                            },
+                            child: Text('Logout'))
+                      ]),
+                    )
+                  ],
+                ),
               ),
             ),
             Spacer(),
