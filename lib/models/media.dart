@@ -40,7 +40,7 @@ class Media {
     return Media(
       mediaId: map['mediaId'],
       type: mediaTypeFromInt(map['type']),
-      url: map['url'],
+      url: (map['url'] is String) ? map['url'] : "",
       title: map['title'],
     );
   }

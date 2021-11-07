@@ -3,40 +3,47 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class Board {
-  final String boardId;
-  final String title;
+  String? boardId;
+  String title;
+  final String uid;
   final String image;
+  final List<String> favorites;
+  final int followers;
   final String description;
   final List<String> posts;
-  final List<String> products;
   final List<String> tags;
 
   Board({
-    required this.boardId,
+    this.boardId,
     required this.title,
     required this.image,
-    required this.description,
-    required this.posts,
-    required this.products,
-    required this.tags,
+    required this.favorites,
+    required this.uid,
+    this.followers = 0,
+    this.description = "",
+    this.posts = const [],
+    this.tags = const [],
   });
 
-  Board copyWith({
-    String? boardId,
-    String? title,
-    String? image,
-    String? description,
-    List<String>? posts,
-    List<String>? products,
-    List<String>? tags,
-  }) {
+  Board copyWith(
+      {String? boardId,
+      String? title,
+      String? image,
+      List<String>? favorites,
+      int? followers,
+      String? description,
+      List<String>? posts,
+      List<String>? tags,
+      String? uid}) {
     return Board(
+      uid: uid ?? this.uid,
       boardId: boardId ?? this.boardId,
       title: title ?? this.title,
       image: image ?? this.image,
+      favorites: favorites ?? this.favorites,
+      followers: followers ?? this.followers,
       description: description ?? this.description,
       posts: posts ?? this.posts,
-      products: products ?? this.products,
       tags: tags ?? this.tags,
     );
   }
@@ -48,19 +55,21 @@ class Board {
       'image': image,
       'description': description,
       'posts': posts,
-      'products': products,
+      'favorites': favorites,
       'tags': tags,
+      'uid': uid,
     };
   }
 
   factory Board.fromMap(Map<String, dynamic> map) {
     return Board(
       boardId: map['boardId'],
+      uid: map['uid'],
       title: map['title'],
       image: map['image'],
       description: map['description'],
       posts: List<String>.from(map['posts']),
-      products: List<String>.from(map['products']),
+      favorites: List<String>.from(map['favorites']),
       tags: List<String>.from(map['tags']),
     );
   }
@@ -71,7 +80,7 @@ class Board {
 
   @override
   String toString() {
-    return 'Board(boardId: $boardId, title: $title, image: $image, description: $description, posts: $posts, products: $products, tags: $tags)';
+    return 'Board(boardId: $boardId, title: $title, image: $image, description: $description, posts: $posts, favorites: $favorites, tags: $tags)';
   }
 
   @override
@@ -84,7 +93,7 @@ class Board {
         other.image == image &&
         other.description == description &&
         listEquals(other.posts, posts) &&
-        listEquals(other.products, products) &&
+        // listEquals(other.favorites, favorites) &&
         listEquals(other.tags, tags);
   }
 
@@ -95,7 +104,7 @@ class Board {
         image.hashCode ^
         description.hashCode ^
         posts.hashCode ^
-        products.hashCode ^
+        favorites.hashCode ^
         tags.hashCode;
   }
 }
