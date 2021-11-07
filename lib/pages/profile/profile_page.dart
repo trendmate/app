@@ -88,41 +88,45 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                      color: Colors.white12,
-                      border: Border.all(color: Colors.grey[500]!, width: 1),
-                      borderRadius: BorderRadius.circular(5)),
-                  child: CachedNetworkImage(
-                    imageUrl: image,
-                    placeholder: (context, url) =>
-                        new CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => new Icon(
-                      Icons.person_outline_rounded,
-                      color: Colors.grey[850],
-                      size: 120,
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        color: Colors.white12,
+                        border: Border.all(color: Colors.grey[500]!, width: 1),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: CachedNetworkImage(
+                      imageUrl: image,
+                      placeholder: (context, url) =>
+                          new CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => new Icon(
+                        Icons.person_outline_rounded,
+                        color: Colors.grey[850],
+                        size: 120,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(children: [
-                    Text(
-                      name,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    if (widget.user == null ||
-                        UserProvider.instance.user!.uid
-                                .compareTo(widget.user!.uid) ==
-                            0)
-                      IconButton(onPressed: editName, icon: Icon(Icons.edit))
-                  ]),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(children: [
+                      Text(
+                        name,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      if (widget.user == null ||
+                          UserProvider.instance.user!.uid
+                                  .compareTo(widget.user!.uid) ==
+                              0)
+                        IconButton(onPressed: editName, icon: Icon(Icons.edit))
+                    ]),
+                  )
+                ],
+              ),
             ),
+            Spacer(),
             Stack(alignment: Alignment(0, 0.5), children: [
               Container(
                 height: 300,
