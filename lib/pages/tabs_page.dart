@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:trendmate/pages/boards/boards_page.dart';
 import 'package:trendmate/pages/social/social_page.dart';
 import 'package:trendmate/pages/social/social_search.dart';
-import 'package:trendmate/providers/user_provider.dart';
 
 import 'posts/posts_page.dart';
-import 'favourites/favourites_page.dart';
 import 'products/products_page.dart';
 import 'package:trendmate/pages/profile/profile_page.dart';
 
@@ -26,10 +23,7 @@ class _TabsPageState extends State<TabsPage> {
   void initState() {
     _pages = [
       {'page': ProductsPage(), 'title': 'Home'},
-      {
-        'page': ProfilePage(),
-        'title': 'Profile'
-      },
+      {'page': ProfilePage(), 'title': 'Profile'},
       {'page': BoardsPage(), 'title': 'Boards'},
       {'page': PostsPage(), 'title': 'Posts'},
       {'page': SocialPage(), 'title': 'Social'},

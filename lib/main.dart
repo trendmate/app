@@ -21,7 +21,6 @@ import 'package:trendmate/pages/tabs_page.dart';
 import 'package:trendmate/pages/social/social_page.dart';
 import 'package:trendmate/providers/social_provider.dart';
 import 'package:trendmate/providers/user_provider.dart';
-import 'pages/profile/profile_page.dart';
 
 void main() async {
   Config.UItest = false;

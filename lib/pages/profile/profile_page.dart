@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -5,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:trendmate/models/social/board.dart';
 import 'package:trendmate/models/user.dart';
-import 'package:trendmate/pages/auth/login_page.dart';
 
 import 'package:trendmate/providers/user_provider.dart';
 import 'package:trendmate/providers/boards_provider.dart';
@@ -75,7 +75,9 @@ class _ProfilePageState extends State<ProfilePage> {
         });
   }
 
-  void out() {}
+  void out() {
+    auth.FirebaseAuth.instance.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
