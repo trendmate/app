@@ -157,12 +157,12 @@ class FirebaseMethods {
   Future<List<Board>> getBaords(List<String> boardIds) async {
     List<Board> res = [];
     for (int i = 0; i < boardIds.length; i++) {
-      res.addAll((await _firestore
+      final board = Board.fromMap((await _firestore
               .collection(StringConstants.BOARDS)
-              .where("boardId", isEqualTo: boardIds[i])
+              .doc(boardIds[i])
               .get())
-          .docs
-          .map((e) => Board.fromMap(e.data())));
+          .data()!);
+      res.add(board);
     }
 
     return res;
