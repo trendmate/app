@@ -29,33 +29,43 @@ class ProductsProvider with ChangeNotifier {
     if (!initilised || (provider.user != null && provider.user != user)) {
       _products = await FirebaseMethods.instance.getProducts();
       _favoritesList = await FirebaseMethods.instance.getMyfavorites();
+      List<String> _brands = await FirebaseMethods.instance.getBrands();
+      _filters.brands =
+          Map.fromIterable(_brands, key: (e) => e, value: (e) => true);
       _favoritesSet = _favoritesList.toSet();
       initilised = true;
       notifyListeners();
     }
   }
 
-  Filter _filter = Filter(
-      brands: {"Monte Carlo": true, "Nike": true, "Gucci": false},
-      gender: {"Men": true, "Women": true},
-      cats: {"t-shirt": true, "shoes": true, "jeans": false},
-      sites: {"myntra": true, "amazon": true, "flipkart": false},
-      priceEnd: 3000,
-      priceStart: 0);
+  Filter _filters = Filter(brands: {
+    // "Monte Carlo": true, "Nike": true, "Gucci": false
+  }, gender: {
+    "Men": true,
+    "Women": true
+  }, cats: {
+    // "t-shirt": true,
+    // "shoes": true,
+    // "jeans": false
+  }, sites: {
+    "myntra": true,
+    "amazon": true,
+    "flipkart": false
+  }, priceEnd: 3000, priceStart: 0);
 
   void setFilter(Filter newFilter) {
-    _filter = newFilter;
+    _filters = newFilter;
     notifyListeners();
   }
 
   List<Product> get products {
-    List<Product> curr = _products
-        .where((element) => _filter.brands[element.brand] == true
-            // &&
-            // _filter.cats[element.category] == true
-            )
-        .toList();
-    curr.sort((a, b) => a.trendiness.compareTo(b.trendiness));
+    List<Product> curr = _products;
+    //     .where((element) => _filter.brands[element.brand] == true
+    //         // &&
+    //         // _filter.cats[element.category] == true
+    //         )
+    //     .toList();
+    // curr.sort((a, b) => a.trendiness.compareTo(b.trendiness));
 
     return curr;
   }
