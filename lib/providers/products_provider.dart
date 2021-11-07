@@ -49,12 +49,13 @@ class ProductsProvider with ChangeNotifier {
   }
 
   List<Product> get products {
-    List<Product> curr = _products;
-    //     .where((element) =>
-    //         _filter.brands[element.brand] == true &&
-    //         _filter.cats[element.category] == true)
-    //     .toList();
-    // curr.sort((a, b) => a.trendiness.compareTo(b.trendiness));
+    List<Product> curr = _products
+        .where((element) => _filter.brands[element.brand] == true
+            // &&
+            // _filter.cats[element.category] == true
+            )
+        .toList();
+    curr.sort((a, b) => a.trendiness.compareTo(b.trendiness));
 
     return curr;
   }
