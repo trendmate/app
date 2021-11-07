@@ -1,3 +1,4 @@
+import 'package:trendmate/pages/auth/login_page.dart';
 import 'package:trendmate/pages/favourites/favourites_page.dart';
 import 'package:trendmate/providers/products_provider.dart';
 import 'package:trendmate/providers/boards_provider.dart';
@@ -162,6 +163,11 @@ class _ProductsPageState extends State<ProductsPage> {
         ),
         actions: [
           IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(LoginPage.routeName);
+              },
+              icon: Icon(Icons.arrow_left)),
+          IconButton(
             padding: EdgeInsets.all(16),
             icon: const Icon(Icons.favorite_border_rounded),
             onPressed: () {
@@ -224,57 +230,58 @@ class _ProductsPageState extends State<ProductsPage> {
                               padding: EdgeInsets.all(8),
                               child: Text(productsProvider.products[idx].title),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  padding:
-                                      EdgeInsets.only(left: 10, bottom: 10),
-                                  child: FittedBox(
-                                    fit: BoxFit.fitWidth,
-                                    clipBehavior: Clip.hardEdge,
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    padding:
+                                        EdgeInsets.only(left: 10, bottom: 10),
                                     child: Text(
-                                      "Rs. ${productsProvider.products[idx].price.toString()}",
+                                      "Rs. ${productsProvider.products[idx].price.toStringAsFixed(2)}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.blue[600]),
                                     ),
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                      color: Colors.teal[400],
-                                      icon: Icon(Icons.library_add),
-                                      onPressed: () {
-                                        bottomModalSheet(productsProvider
-                                            .products[idx].productId);
-                                      },
-                                    ),
-                                    IconButton(
-                                        color: Colors.red,
-                                        icon: Icon(productsProvider.favoritesSet
-                                                .contains(productsProvider
-                                                    .products[idx].productId)
-                                            ? Icons.favorite
-                                            : Icons.favorite_border),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                        color: Colors.teal[400],
+                                        icon: Icon(Icons.library_add),
                                         onPressed: () {
-                                          if (productsProvider.favoritesSet
-                                              .contains(productsProvider
-                                                  .products[idx].productId)) {
-                                            productsProvider.removeFavorites(
-                                                productsProvider
-                                                    .products[idx].productId);
-                                          } else {
-                                            productsProvider.addFavorites(
-                                                productsProvider
-                                                    .products[idx].productId);
-                                          }
-                                        }),
-                                  ],
-                                ),
-                              ],
+                                          bottomModalSheet(productsProvider
+                                              .products[idx].productId);
+                                        },
+                                      ),
+                                      IconButton(
+                                          color: Colors.red,
+                                          icon: Icon(productsProvider
+                                                  .favoritesSet
+                                                  .contains(productsProvider
+                                                      .products[idx].productId)
+                                              ? Icons.favorite
+                                              : Icons.favorite_border),
+                                          onPressed: () {
+                                            if (productsProvider.favoritesSet
+                                                .contains(productsProvider
+                                                    .products[idx].productId)) {
+                                              productsProvider.removeFavorites(
+                                                  productsProvider
+                                                      .products[idx].productId);
+                                            } else {
+                                              productsProvider.addFavorites(
+                                                  productsProvider
+                                                      .products[idx].productId);
+                                            }
+                                          }),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ]),
                     ),
