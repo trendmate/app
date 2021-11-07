@@ -33,6 +33,16 @@ class FirebaseMethods {
     );
   }
 
+  Future<bool> userExists(String phone) async {
+    return (await _firestore
+                .collection(StringConstants.USERS)
+                .where('phone', isEqualTo: phone)
+                .get())
+            .docs
+            .length >
+        0;
+  }
+
   Future<void> signUp(String name, String phone, String uid) {
     final user =
         User.demo().copyWith(name: name.toLowerCase(), phone: phone, uid: uid);
