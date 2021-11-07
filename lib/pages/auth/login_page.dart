@@ -28,15 +28,21 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    FirebaseMethods.instance.phoneAuth(enteredPhone, (credential) {
-      FirebaseAuth.instance.signInWithCredential(credential).then((value) =>
-          Navigator.pushReplacementNamed(context, TabsPage.routeName));
-    },
-        (e) => Utils.showToast("Error sending OTP"),
-        (verificationId, resendToken) => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (ctx) => OtpPage(verId: verificationId))));
+    FirebaseMethods.instance.userExists(enteredPhone).then((value) {
+      if (value) {
+        FirebaseMethods.instance.phoneAuth(enteredPhone, (credential) {
+          FirebaseAuth.instance.signInWithCredential(credential).then((value) =>
+              Navigator.pushReplacementNamed(context, TabsPage.routeName));
+        },
+            (e) => Utils.showToast("Error sending OTP"),
+            (verificationId, resendToken) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (ctx) => OtpPage(verId: verificationId))));
+      } else {
+        Utils.showToast("You need to sign up first");
+      }
+    });
   }
 
   @override
