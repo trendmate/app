@@ -73,7 +73,6 @@ class _BoardsPageState extends State<BoardsPage> {
       );
     } else {
       return ListView.builder(
-        shrinkWrap: true,
         itemCount: boardsProvider.boardsList.length,
         itemBuilder: (ctx, index) => GestureDetector(
           onTap: () {
