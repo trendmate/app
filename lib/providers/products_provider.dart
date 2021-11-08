@@ -32,11 +32,18 @@ class ProductsProvider with ChangeNotifier {
       List<String> _brands = await FirebaseMethods.instance.getBrands();
       _filters.brands =
           Map.fromIterable(_brands, key: (e) => e, value: (e) => true);
+      List<String> _cats = await FirebaseMethods.instance.getCategories();
+      print(_cats);
+      _filters.cats =
+          Map.fromIterable(_cats, key: (e) => e, value: (e) => true);
+      print(_filters.cats);
       _favoritesSet = _favoritesList.toSet();
       initilised = true;
       notifyListeners();
     }
   }
+
+  Filter get filters => _filters;
 
   Filter _filters = Filter(brands: {
     // "Monte Carlo": true, "Nike": true, "Gucci": false
@@ -59,13 +66,18 @@ class ProductsProvider with ChangeNotifier {
   }
 
   List<Product> get products {
-    List<Product> curr = _products;
-    //     .where((element) => _filter.brands[element.brand] == true
-    //         // &&
-    //         // _filter.cats[element.category] == true
-    //         )
-    //     .toList();
-    // curr.sort((a, b) => a.trendiness.compareTo(b.trendiness));
+    List<Product> curr = _products.where((element) {
+      // print(element.category);
+      // print(_filters.cats[element.category]);
+
+      return _filters.brands[element.brand] == true &&
+          _filters.sites[element.store] == true &&
+          element.price >= filters.priceStart &&
+          element.price <= filters.priceEnd;
+      // &&
+      //     _filters.cats[element.category] == true;
+    }).toList();
+    curr.sort((a, b) => a.trendiness.compareTo(b.trendiness));
 
     return curr;
   }

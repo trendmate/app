@@ -195,6 +195,13 @@ class FirebaseMethods {
         .toList();
   }
 
+  Future<List<String>> getCategories() async {
+    return (await _firestore.collection(StringConstants.CATEGORIES).get())
+        .docs
+        .map((e) => e.id)
+        .toList();
+  }
+
   Future<void> incrementShare(Product product) {
     return _firestore
         .collection(StringConstants.PRODUCTS)

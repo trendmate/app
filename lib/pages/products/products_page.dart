@@ -163,11 +163,6 @@ class _ProductsPageState extends State<ProductsPage> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(LoginPage.routeName);
-              },
-              icon: Icon(Icons.arrow_left)),
-          IconButton(
             padding: EdgeInsets.all(16),
             icon: const Icon(Icons.favorite_border_rounded),
             onPressed: () {

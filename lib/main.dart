@@ -38,10 +38,10 @@ class MyApp extends StatelessWidget {
             lazy: false,
             create: (ctx) => UserProvider(),
           ),
-          ChangeNotifierProvider(
-            lazy: false,
-            create: (ctx) => FiltersProvider(),
-          ),
+          // ChangeNotifierProvider(
+          //   lazy: false,
+          //   create: (ctx) => FiltersProvider(),
+          // ),
           ChangeNotifierProvider(
             lazy: false,
             create: (ctx) => PostsProvider(),
@@ -74,7 +74,6 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context, value, Widget? child) =>
                   value.user == null ? LoginPage() : TabsPage(),
             ),
-            
             routes: {
               SignUpPage.routeName: (ctx) => SignUpPage(),
               LoginPage.routeName: (ctx) => LoginPage(),
