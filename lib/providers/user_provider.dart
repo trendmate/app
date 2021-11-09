@@ -32,6 +32,7 @@ class UserProvider with ChangeNotifier {
           if (uid != null)
             FirebaseMethods.instance.getCurrentUser(uid).then((value) {
               user = value;
+              notifyListeners();
             });
         }
       });
