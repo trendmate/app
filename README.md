@@ -4,6 +4,10 @@
 
 TrendMate's App
 
+#Features
+
+An App to Predict latest Fashion Trends based on trendiness score predicted by our CNN model from data fetched from various Ecommerce websites.
+
 # Getting Started
 
 ```
