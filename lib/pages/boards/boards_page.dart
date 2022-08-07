@@ -85,41 +85,44 @@ class _BoardsPageState extends State<BoardsPage> {
                   ? Image.network(
                       "https://i.ebayimg.com/images/g/am8AAOSw4m9b~Bks/s-l400.jpg")
                   : Image.network(boardsProvider.boardsList[index].image),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    boardsProvider.boardsList[index].title,
-                    style: TextStyle(color: Colors.grey, fontSize: 20),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(Icons.people),
-                  Text(boardsProvider.boardsList[index].followers.toString()),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      editBoard(boardsProvider.boardsList[index].boardId!);
-                    },
-                    icon: Icon(
-                      Icons.edit,
-                      color: Colors.orange,
+              title: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      boardsProvider.boardsList[index].title,
+                      style: TextStyle(color: Colors.grey, fontSize: 20),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      boardsProvider.deleteBoard(
-                          boardsProvider.boardsList[index].boardId!);
-                    },
-                    icon: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).errorColor,
+                    SizedBox(
+                      width: 5,
                     ),
-                  ),
-                ],
+                    Icon(Icons.people),
+                    Text(boardsProvider.boardsList[index].followers.toString()),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        editBoard(boardsProvider.boardsList[index].boardId!);
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.orange,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        boardsProvider.deleteBoard(
+                            boardsProvider.boardsList[index].boardId!);
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).errorColor,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
